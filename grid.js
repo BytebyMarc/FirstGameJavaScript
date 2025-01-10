@@ -5,7 +5,7 @@ const ctx = canvas.getContext("2d");
 const mousePosDisplay = document.getElementById('mousePos');
 
 
-let howManyBoxes = 40
+let howManyBoxes = 4
 let fieldSizeX = canvas.width / howManyBoxes;
 let fieldSizeY = fieldSizeX
 
