@@ -3,10 +3,9 @@
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 const mousePosDisplay = document.getElementById('mousePos');
-let howManyBoxes = 20
+let howManyBoxes = 10
 let fieldSizeX = canvas.width / howManyBoxes;
 let fieldSizeY = fieldSizeX;
-
 
 class Field{
     constructor() {
@@ -71,7 +70,7 @@ class Field{
                 ctx.lineWidth = 0;
                 let img = tileImages[arrayGrid[i][j].art]
                 if (img.complete) {
-                    ctx.drawImage(img, arrayGrid[i][j].gridX, arrayGrid[i][j].gridY, 40, 40);
+                    ctx.drawImage(img, arrayGrid[i][j].gridX, arrayGrid[i][j].gridY, fieldSizeX, fieldSizeY);
                 }else {
                     ctx.fillRect(arrayGrid[i][j].gridX, arrayGrid[i][j].gridY, fieldSizeX, fieldSizeY);
                 }
@@ -117,10 +116,11 @@ class player1 {
     canMove(direction) {
         //move is possible
     }
-    draw(direction) {
-
+    draw() {
+        const result = arrayGrid.flat().find(cell => cell.ID === this.lastPositionID);
         ctx.fillStyle = 'red';
-        ctx.fillRect(200, 200, fieldSizeX, fieldSizeY);
+        ctx.fillRect(result.gridX, result.gridY, fieldSizeX, fieldSizeY);
+        console.log("last posistion:" + this.lastPositionID)
     }
 }
 
@@ -253,9 +253,6 @@ function runJS(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     field.draw()
     player.draw()
-
-    let north =  neighbors.getNorth(player.getLastPositionID())
-     console.log(north);
 }
 
 canvas.onmousedown = mouseClickHandler
