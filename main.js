@@ -4,12 +4,16 @@ import Field from './Field.js';
 import Player from './Player.js';
 import Neighbors from './Neighbors.js';
 
+
+
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 const mousePosDisplay = document.getElementById('mousePos');
-let howManyBoxes = 20
+let howManyBoxes = 16
 let fieldSizeX = canvas.width / howManyBoxes;
 let fieldSizeY = fieldSizeX;
+
+
 
 let player = new Player(fieldSizeX, fieldSizeY, ctx);
 let field = new Field(howManyBoxes, fieldSizeX, fieldSizeY, ctx);
@@ -73,10 +77,31 @@ function mouseClickHandler(event) {
 document.addEventListener("keydown", function (event) {
     if (event.key === "ArrowUp") {
         const resultNorth = arrayGrid.flat().find(cell => cell.ID === neighbors.getNorth(player.getLastPositionID()));
-        if(resultNorth.art !== "MOUNTAIN") {player.move("up", neighbors.getNorth(player.getLastPositionID())); }
+        if(player.getLastPositionID() <= 31 && player.getLastPositionID() >= 16)
+        {
+            if(resultNorth.art !== "MOUNTAIN") {
+                field.generateNorth()
+            }
+        }else
+        {
+            if(resultNorth.art !== "MOUNTAIN") {player.move("up", neighbors.getNorth(player.getLastPositionID())); }
+        }
+
+
         } else if (event.key === "ArrowDown") {
         const resultSouth = arrayGrid.flat().find(cell => cell.ID === neighbors.getSouth(player.getLastPositionID()));
-        if(resultSouth.art !== "MOUNTAIN") {player.move("down", neighbors.getSouth(player.getLastPositionID())); }
+
+        if(player.getLastPositionID() <= 239 && player.getLastPositionID() >= 224)
+        {
+            if(resultSouth.art !== "MOUNTAIN") {
+                field.generateSouth()
+            }
+        }else
+        {
+            if(resultSouth.art !== "MOUNTAIN") {player.move("up", neighbors.getSouth(player.getLastPositionID())); }
+        }
+
+
         } else if (event.key === "ArrowLeft") {
         const resultWest = arrayGrid.flat().find(cell => cell.ID === neighbors.getWest(player.getLastPositionID()));
         if(resultWest.art !== "MOUNTAIN") {player.move("down", neighbors.getWest(player.getLastPositionID())); }
@@ -94,4 +119,4 @@ function runJS(){
 canvas.onmousedown = mouseClickHandler
 canvas.onmousemove = mousePositionEvent;
 
-setInterval(runJS, 500);
+setInterval(runJS, 100);
