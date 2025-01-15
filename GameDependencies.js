@@ -1,11 +1,15 @@
+
 export default class GameDependencies {
-    constructor(canvas, howManyBoxes) {
-        this.canvas = canvas;
-        this.howManyBoxes = howManyBoxes;
-        this.fieldSizeX = canvas.width / howManyBoxes;
-        this.fieldSizeY = this.fieldSizeX;
-        this.ctx = canvas.getContext("2d");
+    constructor(howManyBoxes) {
         this.canvas = document.getElementById("myCanvas");
-        this.mousePosDisplay = document.getElementById('mousePos');
+        this.mousePosDisplay = document.getElementById("mousePos");
+        this.howManyBoxes = howManyBoxes;
+        this.fieldSizeX = this.canvas.width / this.howManyBoxes;
+        this.fieldSizeY = this.fieldSizeX;
+        this.ctx = this.canvas.getContext("2d");
+        this.canvasWidth = this.canvas.width;
+        this.canvasHeight = this.canvas.height;
+
+
     }
 }

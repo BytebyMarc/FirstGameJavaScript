@@ -6,32 +6,33 @@ import EventManager from './events/EventManager.js';
 import {enableArrowKeys, disableArrowKeys} from './events/keyHandler.js';
 import {mouseClickHandler, mousePositionEvent} from './events/mouseEvent.js';
 import GameDependencies from './GameDependencies.js';
-
-const canvas = document.getElementById("myCanvas");
-const mousePosDisplay = document.getElementById('mousePos');
+import Statusbar from './statusbar.js';
 
 
-export const GameDep = new GameDependencies(canvas, 16);
+export const GameDep = new GameDependencies(16);
 export let player = new Player(GameDep);
 export let field = new Field(GameDep);
 export let neighbors = new Neighbors(GameDep);
-export const eventManager = new EventManager()
+export const eventManager = new EventManager();
+let statusBar = new Statusbar(GameDep);
 
-canvas.addEventListener('mousemove', mousePositionEvent(canvas, mousePosDisplay));
-canvas.addEventListener('click', mouseClickHandler(player, GameDep));
+
+GameDep.canvas.addEventListener('mousemove', mousePositionEvent(GameDep.canvas, GameDep.mousePosDisplay));
+GameDep.canvas.addEventListener('click', mouseClickHandler(player, GameDep));
 document.addEventListener('keydown', (event) => {
     eventManager.emit(event.key);
 });
 
 
 function runJS(){
-    GameDep.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    GameDep.ctx.clearRect(0, 0, GameDep.canvasWidth, GameDep.canvasHeight);
     field.draw()
     player.draw()
+    statusBar.draw(player.lifePoints)
 }
 
 enableArrowKeys()
-canvas.onmousedown = mouseClickHandler
-canvas.onmousemove = mousePositionEvent;
+GameDep.canvas.onmousedown = mouseClickHandler
+GameDep.canvas.onmousemove = mousePositionEvent;
 
 setInterval(runJS, 100);

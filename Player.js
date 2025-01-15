@@ -4,8 +4,8 @@ export default class Player {
         this.fieldSizeX = GameDependencies.fieldSizeX;
         this.fieldSizeY = GameDependencies.fieldSizeY;
         this.name = "Marc"
-        this.currentField = 1
-        this.lastPositionID = 0
+        this.lifePoints = 100
+        this.lastPositionID = 103
     }
     move(direction, setLastPositionID) {
         switch (direction) {

@@ -5,6 +5,7 @@ const arrowKeyHandlers = {
         const neighborID = neighbors.getNorth(player.getLastPositionID());
         const result = arrayGrid.flat().find(cell => cell.ID === neighborID);
         if(!result || result.art === "MOUNTAIN"){
+            player.lifePoints -= 10
             return;
         }
         if(player.getLastPositionID() <= GameDep.howManyBoxes*2-1 && player.getLastPositionID() >= GameDep.howManyBoxes) {
@@ -17,6 +18,7 @@ const arrowKeyHandlers = {
         const neighborID = neighbors.getSouth(player.getLastPositionID());
         const result = arrayGrid.flat().find(cell => cell.ID === neighborID);
         if(!result || result.art === "MOUNTAIN"){
+            player.lifePoints -= 10
             return;
         }
         if(player.getLastPositionID() <= ((GameDep.howManyBoxes-1)*(GameDep.howManyBoxes-1)+GameDep.howManyBoxes-2) && player.getLastPositionID() >= ((GameDep.howManyBoxes-1)*(GameDep.howManyBoxes-1)-1)) {
@@ -29,6 +31,7 @@ const arrowKeyHandlers = {
         const neighborID = neighbors.getWest(player.getLastPositionID());
         const result = arrayGrid.flat().find(cell => cell.ID === neighborID);
         if(!result || result.art === "MOUNTAIN"){
+            player.lifePoints -= 10
             return;
         }
         for(let i = 0;i < GameDep.howManyBoxes;i++) {
@@ -44,6 +47,7 @@ const arrowKeyHandlers = {
         const neighborID = neighbors.getEast(player.getLastPositionID());
         const result = arrayGrid.flat().find(cell => cell.ID === neighborID);
         if(!result || result.art === "MOUNTAIN"){
+            player.lifePoints -= 10
             return;
         }
 
