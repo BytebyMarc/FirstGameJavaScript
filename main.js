@@ -3,7 +3,8 @@
 import Field from './Field.js';
 import Player from './Player.js';
 import Neighbors from './Neighbors.js';
-
+import EventManager from './EventManager.js';
+import {arrowKeyHandlers} from './keyboardEvent.js';
 
 
 const canvas = document.getElementById("myCanvas");
@@ -15,9 +16,12 @@ let fieldSizeY = fieldSizeX;
 
 
 
-let player = new Player(fieldSizeX, fieldSizeY, ctx);
-let field = new Field(howManyBoxes, fieldSizeX, fieldSizeY, ctx);
-let neighbors = new Neighbors(howManyBoxes, fieldSizeX, fieldSizeY);
+export let player = new Player(fieldSizeX, fieldSizeY, ctx);
+export let field = new Field(howManyBoxes, fieldSizeX, fieldSizeY, ctx);
+export let neighbors = new Neighbors(howManyBoxes, fieldSizeX, fieldSizeY);
+
+const eventManager = new EventManager()
+
 
 function mousePositionEvent(){
     canvas.addEventListener('mousemove', (event) => {
@@ -74,42 +78,21 @@ function mouseClickHandler(event) {
                     }
                 }
 }
-document.addEventListener("keydown", function (event) {
-    if (event.key === "ArrowUp") {
-        const resultNorth = arrayGrid.flat().find(cell => cell.ID === neighbors.getNorth(player.getLastPositionID()));
-        if(player.getLastPositionID() <= 31 && player.getLastPositionID() >= 16)
-        {
-            if(resultNorth.art !== "MOUNTAIN") {
-                field.generateNorth()
-            }
-        }else
-        {
-            if(resultNorth.art !== "MOUNTAIN") {player.move("up", neighbors.getNorth(player.getLastPositionID())); }
-        }
+
+function enableArrowKeys(){
+    Object.keys(arrowKeyHandlers).forEach(key => {
+        eventManager.on(key, arrowKeyHandlers[key]);
+    })
+
+}
 
 
-        } else if (event.key === "ArrowDown") {
-        const resultSouth = arrayGrid.flat().find(cell => cell.ID === neighbors.getSouth(player.getLastPositionID()));
 
-        if(player.getLastPositionID() <= 239 && player.getLastPositionID() >= 224)
-        {
-            if(resultSouth.art !== "MOUNTAIN") {
-                field.generateSouth()
-            }
-        }else
-        {
-            if(resultSouth.art !== "MOUNTAIN") {player.move("up", neighbors.getSouth(player.getLastPositionID())); }
-        }
+document.addEventListener('keydown', (event) => {
+    eventManager.emit(event.key);
+});
 
-
-        } else if (event.key === "ArrowLeft") {
-        const resultWest = arrayGrid.flat().find(cell => cell.ID === neighbors.getWest(player.getLastPositionID()));
-        if(resultWest.art !== "MOUNTAIN") {player.move("down", neighbors.getWest(player.getLastPositionID())); }
-        } else if (event.key === "ArrowRight") {
-        const resultEast = arrayGrid.flat().find(cell => cell.ID === neighbors.getEast(player.getLastPositionID()));
-        if(resultEast.art !== "MOUNTAIN") {player.move("down", neighbors.getEast(player.getLastPositionID())); }
-        }
-    });
+enableArrowKeys()
 function runJS(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     field.draw()
