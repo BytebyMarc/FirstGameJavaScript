@@ -1,6 +1,6 @@
 export default class Neighbors{
-    constructor(howManyBoxes) {
-        this.howManyBoxes = howManyBoxes;
+    constructor(GameDependencies) {
+        this.howManyBoxes = GameDependencies.howManyBoxes;
     }
     calculate(fieldID){
         let north = fieldID - this.howManyBoxes

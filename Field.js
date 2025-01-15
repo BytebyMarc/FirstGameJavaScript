@@ -1,18 +1,18 @@
 export default class Field{
-    constructor(howManyBoxes, fieldSizeX, fieldSizeY, ctx) {
-        this.ctx = ctx
-        this.fieldSizeX = fieldSizeX;
-        this.fieldSizeY = fieldSizeY;
-        this.howManyBoxes = howManyBoxes;
+    constructor(GameDependencies) {
+        this.ctx = GameDependencies.ctx
+        this.fieldSizeX = GameDependencies.fieldSizeX;
+        this.fieldSizeY = GameDependencies.fieldSizeY;
+        this.howManyBoxes = GameDependencies.howManyBoxes;
         if(typeof arrayGrid === 'undefined') {
-            window.arrayGrid = Array.from({ length: howManyBoxes }, () => Array(howManyBoxes).fill(0));
+            window.arrayGrid = Array.from({ length: this.howManyBoxes }, () => Array(this.howManyBoxes).fill(0));
             let gridX = 0;
             let gridY = 0;
             let id = 0
-            for (let i = 0; i < howManyBoxes; i++)
+            for (let i = 0; i < this.howManyBoxes; i++)
             {
                 gridX = 0
-                for (let j = 0; j < howManyBoxes; j++)
+                for (let j = 0; j < this.howManyBoxes; j++)
                 {
                     let art = 0
                     const rand = Math.random();
@@ -24,10 +24,10 @@ export default class Field{
 
 
                     arrayGrid[i][j] = {ID: id, gridX: gridX, gridY: gridY, color: 1, art: art};
-                    gridX += fieldSizeX
+                    gridX += this.fieldSizeX
                     id++
                 }
-                gridY += fieldSizeY
+                gridY += this.fieldSizeY
             }
             console.log("Array wurde erzeugt")
             console.log(arrayGrid)
@@ -35,7 +35,7 @@ export default class Field{
 
         let randomTen = [];
         for (let k = 0; k <= 10;k++) {
-            randomTen.push(Math.floor(Math.random() * fieldSizeX *11));
+            randomTen.push(Math.floor(Math.random() * this.fieldSizeX *11));
         }
     }
     draw() {
@@ -115,6 +115,21 @@ export default class Field{
     return newRow
     }
 
+
+    generateCols() {
+        let newCol = []
+
+            let art = 0
+            const rand = Math.random();
+            if (rand <= 0.1) art = "WATER";
+            else if (rand < 0.6) art = "GRASS";
+            else if (rand < 0.8) art = "FOREST";
+            else if (rand <= 0.9) art = "MOUNTAIN";
+            else art = "FOREST";
+            newCol = {ID: 0, gridX: 0, gridY: 0, color: 1, art: art};
+        return newCol
+    }
+
     generateNorth(){
         arrayGrid.pop();
         arrayGrid.unshift(this.generateRow())
@@ -127,10 +142,13 @@ export default class Field{
     }
     generateWest(){
 
+        arrayGrid.forEach(array => array.splice(this.howManyBoxes,1));
+        arrayGrid.forEach(array => array.splice(0,0, this.generateCols()));
         this.renewArray()
     }
     generateEast(){
-
+        arrayGrid.forEach(array => array.splice(0,1));
+        arrayGrid.forEach(array => array.splice(this.howManyBoxes-1,0, this.generateCols()));
         this.renewArray()
     }
 }

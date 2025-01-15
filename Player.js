@@ -1,8 +1,8 @@
 export default class Player {
-    constructor(fieldSizeX, fieldSizeY, ctx) {
-        this.ctx = ctx;
-        this.fieldSizeX = fieldSizeX;
-        this.fieldSizeY = fieldSizeY;
+    constructor(GameDependencies) {
+        this.ctx = GameDependencies.ctx;
+        this.fieldSizeX = GameDependencies.fieldSizeX;
+        this.fieldSizeY = GameDependencies.fieldSizeY;
         this.name = "Marc"
         this.currentField = 1
         this.lastPositionID = 0
