@@ -125,5 +125,12 @@ export default class Field{
         arrayGrid.push(this.generateRow())
         this.renewArray()
     }
+    generateWest(){
 
+        this.renewArray()
+    }
+    generateEast(){
+
+        this.renewArray()
+    }
 }
