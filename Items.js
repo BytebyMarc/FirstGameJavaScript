@@ -5,19 +5,26 @@ export default class Items{
             this.fieldSizeY = GameDep.fieldSizeY;
             this.tileImages = GameDep.tileImages;
             this.itemStack = []
+            this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
+            this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
+            this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
+            this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
+            this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
     }
 
 findBook(quest){
     //console.log(quest);
     //console.log(quest.questText);
-
-    let text = quest.questText;
-    this.ctx.fillStyle = 'white';
-    this.ctx.fillRect(200, 200, 400, 400);
-    this.ctx.fillStyle = "#000";
-    this.ctx.font = "16px Arial";
-    this.ctx.fillText(`${text}`, 210, 225);
-    this.ctx.fillText(`Press ENTER to close`, 320, 580);
+    // this.ctx.fillStyle = 'white';
+    // this.ctx.fillRect(200, 200, 400, 400);
+    // this.ctx.fillStyle = "#000";
+    // this.ctx.font = "16px Arial";
+    // this.drawText(`${text}`, 210, 225, 250,250)
+    // //this.ctx.fillText(`${text}`, 210, 225);
+    // this.ctx.fillText(`Press ENTER to close`, 320, 580);
+    //let text = quest.questText;
+    overlay.innerHTML = `<h2>${quest.quest}</h2><p align="left">${quest.questText.replace(/\n/g, '<br>')}</p>`;
+    overlay.style.display = 'block';
 }
 
     dropItem(random, name, itemSort, playerLifePoints)

@@ -7,12 +7,14 @@
     <title>FirstGame</title>
 </head>
 <body>
-
 <div class="canvas-container">
-    <canvas id="myCanvas" width="800" height="800" style="border: 1px solid black"></canvas>
+    <canvas id="myCanvas" width="800" height="800"></canvas>
+    <div class="overlay" id="overlay">
+        <h2>Overlay Titel</h2>
+        <p>Dies ist ein Text, der über dem Canvas schwebt.</p>
+    </div>
 </div>
 
-<button id="dropButton">Drop Item</button>
 
 <script type="module" src="./main.js"></script> <!-- Skript muss nach dem canvas kommen damit es im DOM verfügbar ist -->
 </body>

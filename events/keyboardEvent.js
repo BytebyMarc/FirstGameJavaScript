@@ -3,6 +3,7 @@ import {field, neighbors, player, GameDep, items} from '../main.js';
 const arrowKeyHandlers = {
     Enter: () =>{
         GameDep.setGameStatus(3)
+        GameDep.questTriggered = false;
     },
     ArrowUp: () => {
         const neighborID = neighbors.getNorth(player.getLastPositionID());
@@ -13,12 +14,12 @@ const arrowKeyHandlers = {
         }
         if (items.itemStack.some(item => item.ID === player.getLastPositionID()) && GameDep.gameStatus !== 3) {
             GameDep.setGameStatus(1)
+            player.lifePoints += 10
             console.log("Buch gefunden")
             return
         }else {
             GameDep.setGameStatus(0)
         }
-
 
         if(player.getLastPositionID() <= GameDep.howManyBoxes*2-1 && player.getLastPositionID() >= GameDep.howManyBoxes) {
             field.generateNorth()
@@ -37,6 +38,7 @@ const arrowKeyHandlers = {
         }
         if (items.itemStack.some(item => item.ID === player.getLastPositionID()) && GameDep.gameStatus !== 3) {
             GameDep.setGameStatus(1)
+            player.lifePoints += 10
             console.log("Buch gefunden")
             return
         }else {
@@ -58,6 +60,7 @@ const arrowKeyHandlers = {
         }
         if (items.itemStack.some(item => item.ID === player.getLastPositionID()) && GameDep.gameStatus !== 3) {
             GameDep.setGameStatus(1)
+            player.lifePoints += 10
             console.log("Buch gefunden")
             return
         }else {
@@ -82,6 +85,7 @@ const arrowKeyHandlers = {
         }
         if (items.itemStack.some(item => item.ID === player.getLastPositionID()) && GameDep.gameStatus !== 3) {
             GameDep.setGameStatus(1)
+            player.lifePoints += 10
             console.log("Buch gefunden")
             return
         }else {
@@ -108,8 +112,8 @@ function mapMoveItemNorth()
             if(items.itemStack[i].ID === null)
             {
                 items.itemStack.splice(i,1)
+            items.dropItem(GameDep.randomID(), "BOOK", 1, 10);
             }
-           // console.log(items.itemStack);
         }
 }
 function mapMoveItemSouth()
@@ -119,8 +123,8 @@ function mapMoveItemSouth()
         if(items.itemStack[i].ID === null)
         {
             items.itemStack.splice(i,1)
+        items.dropItem(GameDep.randomID(), "BOOK", 1, 10);
         }
-       // console.log(items.itemStack);
     }
 }
 function mapMoveItemWest()
@@ -130,8 +134,8 @@ function mapMoveItemWest()
         if(items.itemStack[i].ID === null)
         {
             items.itemStack.splice(i,1)
+        items.dropItem(GameDep.randomID(), "BOOK", 1, 10);
         }
-      //  console.log(items.itemStack);
     }
 }
 function mapMoveItemEast()
@@ -141,8 +145,8 @@ function mapMoveItemEast()
         if(items.itemStack[i].ID === null)
         {
             items.itemStack.splice(i,1)
+        items.dropItem(GameDep.randomID(), "BOOK", 1, 10);
         }
-       // console.log(items.itemStack);
     }
 }
 

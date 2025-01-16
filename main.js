@@ -21,12 +21,10 @@ export let items = new Items(GameDep);
 
 let data = new Data()
 
+let  overlay = document.getElementById('overlay');
 GameDep.canvas.addEventListener('click', mouseClickHandler(player, GameDep));
 document.addEventListener('keydown', (event) => {
     eventManager.emit(event.key);
-});
-document.getElementById('dropButton').addEventListener('click', () => {
-    items.dropItem(GameDep.randomID(), "BOOK", 1, 10);
 });
 
 function runJS(){
@@ -35,14 +33,34 @@ function runJS(){
     player.draw()
     items.draw();
     statusBar.draw(player.lifePoints)
+    overlay.style.display = 'none';
     if(GameDep.gameStatus === 1) {
-        //disableArrowKeys()
-        items.findBook(data.getQuest())
-    }
+        if(!GameDep.questTriggered) {
+         GameDep.takeQuest = data.getQuest()
 
+        }
+        items.findBook(GameDep.takeQuest)
+        GameDep.questTriggered = true;
+    }
+if(player.lifePoints < 1) {
+    GameOver()
+    clearInterval(intervalId);
+
+}
 }
     enableArrowKeys()
 GameDep.canvas.onmousedown = mouseClickHandler
 GameDep.canvas.onmousemove = mousePositionEvent;
 
-setInterval(runJS, 100);
+let intervalId = setInterval(runJS, 100);
+
+
+function GameOver(){
+    GameDep.ctx.fillStyle = 'white';
+    GameDep.ctx.fillRect(200, 200, 250, 200);
+    GameDep.ctx.fillStyle = "#000";
+    GameDep.ctx.font = "16px Arial";
+    GameDep.ctx.fillText(`GAMEOVER`, 250, 280);
+    GameDep.ctx.fillText(`New Game - Press F5 `, 250, 240);
+
+}

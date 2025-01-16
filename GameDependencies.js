@@ -9,6 +9,8 @@ export default class GameDependencies {
         this.canvasWidth = this.canvas.width;
         this.canvasHeight = this.canvas.height;
         this.gameStatus = 0;
+        this.questTriggered = false;
+        this.takeQuest = []
         this.tileImages = {
             DRAGON: new Image(),
             BOOK: new Image(),

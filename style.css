@@ -8,16 +8,33 @@ body {
     background-image: url('assets/background.webp');
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center; /* Bild zentrieren */
+    background-position: center;
 }
 
 .canvas-container {
+    position: relative; /* Setzt einen Bezugspunkt für absolute Positionierung */
     display: flex;
     justify-content: center;
     align-items: center;
     border: 5px solid #000;
-
     background-size: cover;
     width: 800px;
     height: 800px;
+}
+
+#myCanvas {
+    border: 1px solid black;
+}
+
+.overlay {
+    position: absolute; /* Absolut innerhalb des Containers */
+    top: 50%; /* Vertikale Mitte */
+    left: 50%; /* Horizontale Mitte */
+    transform: translate(-50%, -50%); /* Zentriert den Mittelpunkt */
+    background-color: rgba(255, 255, 255, 0.8); /* Halbtransparenter Hintergrund */
+    padding: 20px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
