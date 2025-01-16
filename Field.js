@@ -1,9 +1,11 @@
 export default class Field{
-    constructor(GameDependencies) {
-        this.ctx = GameDependencies.ctx
-        this.fieldSizeX = GameDependencies.fieldSizeX;
-        this.fieldSizeY = GameDependencies.fieldSizeY;
-        this.howManyBoxes = GameDependencies.howManyBoxes;
+    constructor(GameDep) {
+        this.ctx = GameDep.ctx
+        this.fieldSizeX = GameDep.fieldSizeX;
+        this.fieldSizeY = GameDep.fieldSizeY;
+        this.howManyBoxes = GameDep.howManyBoxes;
+        this.tileImages = GameDep.tileImages;
+
         if(typeof arrayGrid === 'undefined') {
             window.arrayGrid = Array.from({ length: this.howManyBoxes }, () => Array(this.howManyBoxes).fill(0));
             let gridX = 0;
@@ -39,18 +41,6 @@ export default class Field{
         }
     }
     draw() {
-        const tileImages = {
-            GRASS: new Image(),
-            WATER: new Image(),
-            FOREST: new Image(),
-            MOUNTAIN: new Image(),
-            CITY: new Image()
-        };
-
-        tileImages.GRASS.src = 'assets/grass.png';
-        tileImages.WATER.src = 'assets/water.png';
-        tileImages.FOREST.src = 'assets/forrest.png';
-        tileImages.MOUNTAIN.src = 'assets/mountain.png';
         this.ctx.beginPath();
         this.ctx.moveTo(0, 0)
         for (let i = 0; i < this.howManyBoxes; i++) {
@@ -63,7 +53,7 @@ export default class Field{
                 }
                 this.ctx.strokeStyle = 'black';
                 this.ctx.lineWidth = 0;
-                let img = tileImages[arrayGrid[i][j].art]
+                let img = this.tileImages[arrayGrid[i][j].art]
                 if (img.complete) {
                     this.ctx.drawImage(img, arrayGrid[i][j].gridX, arrayGrid[i][j].gridY, this.fieldSizeX, this.fieldSizeY);
                 }else {
@@ -114,7 +104,6 @@ export default class Field{
         }
     return newRow
     }
-
 
     generateCols() {
         let newCol = []

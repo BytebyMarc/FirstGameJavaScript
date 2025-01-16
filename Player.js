@@ -1,11 +1,12 @@
 export default class Player {
-    constructor(GameDependencies) {
-        this.ctx = GameDependencies.ctx;
-        this.fieldSizeX = GameDependencies.fieldSizeX;
-        this.fieldSizeY = GameDependencies.fieldSizeY;
+    constructor(GameDep) {
+        this.ctx = GameDep.ctx;
+        this.fieldSizeX = GameDep.fieldSizeX;
+        this.fieldSizeY = GameDep.fieldSizeY;
         this.name = "Marc"
         this.lifePoints = 100
         this.lastPositionID = 103
+        this.tileImages = GameDep.tileImages;
     }
     move(direction, setLastPositionID) {
         switch (direction) {
@@ -33,21 +34,14 @@ export default class Player {
         //move is possible
     }
     draw() {
-
         const result = arrayGrid.flat().find(cell => cell.ID === this.lastPositionID);
-        const tileImages = {
-            DRAGON: new Image(),
-        };
-
-        tileImages.DRAGON.src = 'assets/dragon.png';
-        let img = tileImages.DRAGON
-
+        let img = this.tileImages.DRAGON
         if (img.complete) {
             this.ctx.drawImage(img, result.gridX, result.gridY, this.fieldSizeX, this.fieldSizeY);
         }else {
             this.ctx.fillStyle = 'red';
             this.ctx.fillRect(result.gridX, result.gridY, this.fieldSizeX, this.fieldSizeY);
-
-        }console.log("last posistion:" + this.lastPositionID)
+        }
+        //console.log("last posistion:" + this.lastPositionID)
     }
 }

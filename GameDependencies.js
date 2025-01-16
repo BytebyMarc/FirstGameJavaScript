@@ -2,14 +2,37 @@
 export default class GameDependencies {
     constructor(howManyBoxes) {
         this.canvas = document.getElementById("myCanvas");
-        this.mousePosDisplay = document.getElementById("mousePos");
         this.howManyBoxes = howManyBoxes;
         this.fieldSizeX = this.canvas.width / this.howManyBoxes;
         this.fieldSizeY = this.fieldSizeX;
         this.ctx = this.canvas.getContext("2d");
         this.canvasWidth = this.canvas.width;
         this.canvasHeight = this.canvas.height;
+        this.gameStatus = 0;
+        this.tileImages = {
+            DRAGON: new Image(),
+            BOOK: new Image(),
+            GRASS: new Image(),
+            WATER: new Image(),
+            FOREST: new Image(),
+            MOUNTAIN: new Image(),
+            CITY: new Image()
+        };
 
+        this.tileImages.DRAGON.src = 'assets/dragon.png';
+        this.tileImages.BOOK.src = 'assets/Book.png';
+        this.tileImages.GRASS.src = 'assets/grass.png';
+        this.tileImages.WATER.src = 'assets/water.png';
+        this.tileImages.FOREST.src = 'assets/forrest.png';
+        this.tileImages.MOUNTAIN.src = 'assets/mountain.png';
+    }
 
+    randomID()
+    {
+        return this.random = Math.floor(Math.random() * this.howManyBoxes * this.howManyBoxes);
+    }
+    setGameStatus(status)
+    {
+        this.gameStatus = status;
     }
 }
