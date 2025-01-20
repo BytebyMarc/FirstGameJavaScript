@@ -13,17 +13,19 @@ export default class Items{
     }
 
 findBook(quest){
-    //console.log(quest);
-    //console.log(quest.questText);
-    // this.ctx.fillStyle = 'white';
-    // this.ctx.fillRect(200, 200, 400, 400);
-    // this.ctx.fillStyle = "#000";
-    // this.ctx.font = "16px Arial";
-    // this.drawText(`${text}`, 210, 225, 250,250)
-    // //this.ctx.fillText(`${text}`, 210, 225);
-    // this.ctx.fillText(`Press ENTER to close`, 320, 580);
-    //let text = quest.questText;
-    overlay.innerHTML = `<h2>${quest.quest}</h2><p align="left">${quest.questText.replace(/\n/g, '<br>')}</p>`;
+    const parsed = JSON.parse(quest);
+            console.log(quest);
+            let Question = parsed.Question
+
+        overlay.innerHTML = `
+        <h2>${Question}</h2>
+        <p align="left">
+            <strong>Antwort 1:</strong> ${quest.Answer_1}<br>
+            <strong>Antwort 2:</strong> ${quest.Answer_2}<br>
+            <strong>Antwort 3:</strong> ${quest.Answer_3}<br>
+            <strong>Antwort 4:</strong> ${quest.Answer_4}
+        </p>
+    `;
     overlay.style.display = 'block';
 }
 

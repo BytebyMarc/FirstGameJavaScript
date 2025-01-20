@@ -36,7 +36,17 @@ function runJS(){
     overlay.style.display = 'none';
     if(GameDep.gameStatus === 1) {
         if(!GameDep.questTriggered) {
-         GameDep.takeQuest = data.getQuest()
+
+            (async () => {
+                try {
+                    const dataa = await data.getQuest(); // Promise auflösen
+                    const jsonString = JSON.stringify(dataa, null, 2); // JSON-String mit Formatierung
+                    GameDep.takeQuest = jsonString
+                       // console.log(GameDep.takeQuest); // Zeigt den JSON-String in der Konsole
+                } catch (error) {
+                    console.error('Fehler:', error);
+                }
+            })();
 
         }
         items.findBook(GameDep.takeQuest)
