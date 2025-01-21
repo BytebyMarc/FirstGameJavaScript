@@ -17,6 +17,7 @@ export default class Items{
     findBook(quest){
         const parsed = JSON.parse(quest);
                 console.log(quest);
+                this.correctAnswer = parsed.CorrectAnswer
             this.overlay.innerHTML = `
                     <h2>${parsed.Question}</h2>
                     <div class="answer" id="answer1"> ${parsed.Answer_1}</div>

@@ -23,7 +23,12 @@ let data = new Data()
 GameDep.canvas.addEventListener('click', mouseClickHandler(player, GameDep));
 GameDep.container.addEventListener('click', (event) => {
     if (event.target.classList.contains('answer')) {
-        console.log(`Geklickt auf: ${event.target.id}`);}
+
+            let controll = "answer"+items.correctAnswer
+        if(controll === event.target.id)
+            {
+                console.log(`Richtige Antwort`);
+            }}
         GameDep.setGameStatus(3)
         GameDep.questTriggered = false;
         overlay.style.display = 'none';
@@ -51,7 +56,6 @@ enableArrowKeys()
 GameDep.canvas.onmousedown = mouseClickHandler
 GameDep.canvas.onmousemove = mousePositionEvent;
 GameDep.intervalId = setInterval(runJS, 100);
-
 
 
 function openWindowsQuestion() {
