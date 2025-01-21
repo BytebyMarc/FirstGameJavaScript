@@ -4,7 +4,9 @@ export default class Items{
             this.fieldSizeX = GameDep.fieldSizeX;
             this.fieldSizeY = GameDep.fieldSizeY;
             this.tileImages = GameDep.tileImages;
-            this.itemStack = []
+            this.intervalId = GameDep.intervalId;
+            this.overlay = document.getElementById('overlay');
+            this.itemList = []
             this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
             this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
             this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
@@ -12,32 +14,28 @@ export default class Items{
             this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
     }
 
-findBook(quest){
-    const parsed = JSON.parse(quest);
-            console.log(quest);
-            let Question = parsed.Question
-
-        overlay.innerHTML = `
-        <h2>${Question}</h2>
-        <p align="left">
-            <strong>Antwort 1:</strong> ${quest.Answer_1}<br>
-            <strong>Antwort 2:</strong> ${quest.Answer_2}<br>
-            <strong>Antwort 3:</strong> ${quest.Answer_3}<br>
-            <strong>Antwort 4:</strong> ${quest.Answer_4}
-        </p>
-    `;
-    overlay.style.display = 'block';
-}
+    findBook(quest){
+        const parsed = JSON.parse(quest);
+                console.log(quest);
+            this.overlay.innerHTML = `
+                    <h2>${parsed.Question}</h2>
+                    <div class="answer" id="answer1"> ${parsed.Answer_1}</div>
+                    <div class="answer" id="answer2"> ${parsed.Answer_2}</div>
+                    <div class="answer" id="answer3">${parsed.Answer_3} </div>
+                    <div class="answer" id="answer4"> ${parsed.Answer_4}</div>`;
+                    overlay.style.display = 'block';
+                    clearInterval(this.intervalId);
+    }
 
     dropItem(random, name, itemSort, playerLifePoints)
     {
     let newItem = {ID: random, name: name, itemSort: itemSort, playerLifePoints: playerLifePoints};
-    this.itemStack.push(newItem);
-    //console.log(this.itemStack);
+    this.itemList.push(newItem);
+    //Die id ist in diesem fall das Feld auf dem DAs Item Dropped
     }
     draw(){
-        for(let i = 0; i < this.itemStack.length; i++){
-            let result = arrayGrid.flat().find(cell => cell.ID === this.itemStack[i].ID);
+        for(let i = 0; i < this.itemList.length; i++){
+            let result = arrayGrid.flat().find(cell => cell.ID === this.itemList[i].ID);
             let img = this.tileImages.BOOK
             if (img.complete) {
                 this.ctx.drawImage(img, result.gridX, result.gridY, this.fieldSizeX, this.fieldSizeY);

@@ -11,13 +11,15 @@ getQuest() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ ID_Question: 1 }),
+            body: JSON.stringify({ ID_Question: Math.floor(Math.random() * 4) }),
         })
             .then(response => response.text()) // Text statt JSON prüfen
             .then(data => {
-                console.log('Raw Response:', data); // Gibt die rohe Antwort aus
+               // console.log('Raw Response:', data); // Gibt die rohe Daten aus
                 try {
-                     // Versucht, JSON zu parsen
+                     // Versuch JSON zu parsen
+                    let obj = JSON.parse(data);
+                    //fx(data)
                     return JSON.parse(data);
                     //console.log('Parsed Data:', parsedData);
                 } catch (e) {

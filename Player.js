@@ -30,6 +30,15 @@ export default class Player {
     getLastPositionID(){
         return this.lastPositionID;
     }
+    setPlayerLifePoints(playerLifePoints){
+        this.lifePoints += playerLifePoints;
+        if (this.lifePoints < 100){
+            return this.lifePoints
+        }
+        else {
+            this.lifePoints = 100
+        }
+    }
     canMove(direction) {
         //move is possible
     }

@@ -37,4 +37,21 @@ body {
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
 }
+#answer1, #answer2, #answer3, #answer4 {
+    display: block;
+    visibility: visible;
+    margin: 10px;
+    padding: 10px;
+    align-items: center;
+    text-align: left;
+    border-radius: 10px;
+    z-index: 20;
+}
+#answer1:hover, #answer2:hover, #answer3:hover, #answer4:hover {
+    display: block;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+
