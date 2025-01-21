@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="2c3aa7d4-41f7-4b83-9260-fe1d4100a92d" name="bytebymarc" url="https://bytebymarc.de">
+        <fileTransfer rootFolder="/www/htdocs/w01888c0/bytebymarc.de" accessType="SFTP" host="w01888c0.kasserver.com" port="22" sshConfigId="85895675-61eb-4106-8dfc-21be1cf7c19f" sshConfig="ssh-w01888c0@w01888c0.kasserver.com:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
