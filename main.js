@@ -18,7 +18,7 @@ export let player = new Player(GameDep);
 export let field = new Field(GameDep);
 export let neighbors = new Neighbors(GameDep);
 export let items = new Items(GameDep);
-export let attack = new Attack(GameDep);
+export let attack = new Attack(GameDep, player);
 export let enemy = new Enemy(GameDep);
 export let data = new Data();
 export let question = new Question(data);
@@ -28,11 +28,12 @@ let statusBar = new Statusbar(GameDep);
 GameDep.canvas.addEventListener('click', mouseClickHandler(player, GameDep));
 GameDep.container.addEventListener('click', (event) => {question.checkAnswer(event); });
 document.addEventListener('keydown', (event) => { eventManager.emit(event.key); });
+enableArrowKeys();
 GameDep.canvas.onmousedown = mouseClickHandler;
 GameDep.canvas.onmousemove = mousePositionEvent;
 GameDep.intervalId = setInterval(runJS, 100);
 
-    enableArrowKeys();
+
 
 export function runJS(){
     GameDep.ctx.clearRect(0, 0, GameDep.canvasWidth, GameDep.canvasHeight);
@@ -42,7 +43,7 @@ export function runJS(){
     enemy.drawEnemy();
     statusBar.draw(player.lifePoints);
     question.openWindowsQuestion();
-    attack.openWindowAttack();
+    attack.openWindowAttack(enemy.enemyList[0]);
     if(player.lifePoints < 1) {
         //disableArrowKeys()
         GameDep.GameOver();

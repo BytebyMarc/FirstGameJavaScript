@@ -7,6 +7,14 @@ export default class Player {
         this.lifePoints = 100
         this.lastPositionID = 103
         this.tileImages = GameDep.tileImages;
+        this.attack1 = "first";
+        this.attack1Hit = 20;
+        this.attack2 = "second";
+        this.attack2Hit = 30;
+        this.attack3 = "third";
+        this.attack3Hit = 20;
+        this.attack4 = "fourth";
+        this.attack4Hit = 10;
     }
     move(direction, setLastPositionID) {
         switch (direction) {

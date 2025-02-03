@@ -46,6 +46,7 @@ const arrowKeyHandlers = {
     },
     ArrowLeft: () => {
         const neighborID = neighbors.getWest(player.getLastPositionID());
+
         const result = arrayGrid.flat().find(cell => cell.ID === neighborID);
         if(!result || result.art === "MOUNTAIN"){
             player.setPlayerLifePoints(-10)

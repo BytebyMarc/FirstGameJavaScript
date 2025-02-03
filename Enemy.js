@@ -8,14 +8,31 @@ export default class Enemy{
         this.tileImages = GameDep.tileImages;
         this.intervalId = GameDep.intervalId;
         this.enemyList = []
-        this.dropEnemy(GameDep.randomID(), "MAGIER", 1, 10);
-
+        this.dropEnemy(GameDep.randomID(), "MAGIER", 150, 15,20,10,
+            "Feuerball",40,"iceball", 25, "Flügelschlag", 50, "Heilung", -50);
     }
 
-dropEnemy(random, name, itemSort, playerLifePoints)
+dropEnemy(random, name, hitpoint, defensive, speed, critical, attack1, attack1Hit, attack2, attack2Hit,
+          attack3, attack3Hit, attack4, attack4Hit)
     {
-        let newItem = {ID: random, name: name, itemSort: itemSort, playerLifePoints: playerLifePoints};
-        this.enemyList.push(newItem);
+        let newEnemy = {
+            ID: random,
+            name: name,
+            hitpoint: hitpoint,
+            maxHitpoint: hitpoint,
+            defensive: defensive,
+            speed: speed,
+            critical: critical,
+            attack1: attack1,
+            attack1Hit: attack1Hit,
+            attack2: attack2,
+            attack2Hit: attack2Hit,
+            attack3: attack3,
+            attack3Hit: attack3Hit,
+            attack4: attack4,
+            attack4Hit: attack4Hit,
+        };
+        this.enemyList.push(newEnemy);
         //Die id ist in diesem fall das Feld auf dem DAs Item Dropped
     }
 

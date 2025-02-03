@@ -10,7 +10,7 @@ export default class EventManager{
     }
     off(eventName, handler){
         if(this.events[eventName]){
-            this.events[eventName] = this.events[eventName].filter(h => h !== this.events[eventName]);
+            this.events[eventName] = this.events[eventName].filter(h => h !== handler);
         }
     }
     emit(eventName, data){

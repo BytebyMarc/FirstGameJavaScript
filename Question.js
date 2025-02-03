@@ -7,6 +7,7 @@ export default class Question {
 
     openWindowsQuestion() {
         if (GameDep.gameStatus === 1) {
+
             if (!GameDep.questTriggered) {
                 (async () => {
                     try {
