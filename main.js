@@ -27,6 +27,7 @@ GameDep.container.addEventListener('click', (event) => {
             let controll = "answer"+items.correctAnswer
         if(controll === event.target.id)
             {
+                GameDep.exPoints = 15;
                 console.log(`Richtige Antwort`);
             }}
         GameDep.setGameStatus(3)
@@ -42,17 +43,18 @@ document.addEventListener('keydown', (event) => {
 
 export function runJS(){
     GameDep.ctx.clearRect(0, 0, GameDep.canvasWidth, GameDep.canvasHeight);
+    enableArrowKeys()
     field.draw()
     player.draw()
     items.draw();
     statusBar.draw(player.lifePoints)
     openWindowsQuestion();
     if(player.lifePoints < 1) {
+        //disableArrowKeys()
         GameDep.GameOver()
     }
 }
 
-enableArrowKeys()
 GameDep.canvas.onmousedown = mouseClickHandler
 GameDep.canvas.onmousemove = mousePositionEvent;
 GameDep.intervalId = setInterval(runJS, 100);

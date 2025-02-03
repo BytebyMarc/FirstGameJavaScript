@@ -12,7 +12,6 @@ export default class GameDependencies {
         this.questTriggered = false;
         this.intervalId = "";
         this.takeQuest = []
-
         this.tileImages = {
             DRAGON: new Image(),
             BOOK: new Image(),
@@ -20,11 +19,13 @@ export default class GameDependencies {
             WATER: new Image(),
             FOREST: new Image(),
             MOUNTAIN: new Image(),
-            CITY: new Image()
+            CITY: new Image(),
+            MAGIER: new Image()
         };
 
         this.tileImages.DRAGON.src = 'assets/dragon.png';
         this.tileImages.BOOK.src = 'assets/Book.png';
+        this.tileImages.MAGIER.src = 'assets/magier.png';
         this.tileImages.GRASS.src = 'assets/grass.png';
         this.tileImages.WATER.src = 'assets/water.png';
         this.tileImages.FOREST.src = 'assets/forrest.png';

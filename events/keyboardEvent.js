@@ -135,9 +135,7 @@ function mapMoveItem(direction) {
 export const menuKeyHandlers = {
     m: () => {
         console.log("Menü Geöffnet")
-
     }
-
 }
 
 export { arrowKeyHandlers };

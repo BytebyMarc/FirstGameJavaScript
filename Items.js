@@ -11,7 +11,7 @@ export default class Items{
             this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
             this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
             this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
-            this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
+            this.dropItem(GameDep.randomID(), "MAGIER", 1, 10);
     }
 
     findBook(quest){
@@ -34,10 +34,10 @@ export default class Items{
     this.itemList.push(newItem);
     //Die id ist in diesem fall das Feld auf dem DAs Item Dropped
     }
-    draw(){
+    drawBook(){
         for(let i = 0; i < this.itemList.length; i++){
             let result = arrayGrid.flat().find(cell => cell.ID === this.itemList[i].ID);
-            let img = this.tileImages.BOOK
+            let img = this.tileImages[this.itemList[i].name];
             if (img.complete) {
                 this.ctx.drawImage(img, result.gridX, result.gridY, this.fieldSizeX, this.fieldSizeY);
             }else {
@@ -46,4 +46,5 @@ export default class Items{
             }
         }
     }
+
 }

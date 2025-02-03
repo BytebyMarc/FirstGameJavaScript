@@ -4,7 +4,6 @@ export function enableArrowKeys(){
     Object.keys(arrowKeyHandlers).forEach(key => {
         eventManager.on(key, arrowKeyHandlers[key]);
     })
-
 }
 
 export function disableArrowKeys() {
