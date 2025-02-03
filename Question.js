@@ -1,9 +1,7 @@
-import {GameDep, items, runJS} from "./main";
+import {GameDep, items, runJS} from "./main.js";
 
-class Question {
-
+export default class Question {
     constructor(data) {
-
         this.data = data;
     }
 
