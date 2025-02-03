@@ -1,6 +1,7 @@
 "use strict";
 import GameDependencies from './GameDependencies.js';
 import Items from "./Items.js";
+import Question from "./Question.js";
 import Field from './Field.js';
 import Player from './Player.js';
 import Neighbors from './Neighbors.js';
@@ -15,30 +16,17 @@ export let player = new Player(GameDep);
 export let field = new Field(GameDep);
 export let neighbors = new Neighbors(GameDep);
 export let items = new Items(GameDep);
+let data = new Data()
+export let question = new Question(data);
 export const eventManager = new EventManager();
 let statusBar = new Statusbar(GameDep);
-let data = new Data()
-
 
 GameDep.canvas.addEventListener('click', mouseClickHandler(player, GameDep));
-GameDep.container.addEventListener('click', (event) => {
-    if (event.target.classList.contains('answer')) {
-
-            let controll = "answer"+items.correctAnswer
-        if(controll === event.target.id)
-            {
-                GameDep.exPoints = 15;
-                console.log(`Richtige Antwort`);
-            }}
-        GameDep.setGameStatus(3)
-        GameDep.questTriggered = false;
-        overlay.style.display = 'none';
-        GameDep.intervalId = setInterval(runJS, 100);
-
-});
-document.addEventListener('keydown', (event) => {
-    eventManager.emit(event.key);
-});
+GameDep.container.addEventListener('click', (event) => {question.checkAnswer(event); });
+document.addEventListener('keydown', (event) => { eventManager.emit(event.key); });
+GameDep.canvas.onmousedown = mouseClickHandler
+GameDep.canvas.onmousemove = mousePositionEvent;
+GameDep.intervalId = setInterval(runJS, 100);
 
 
 export function runJS(){
@@ -46,35 +34,11 @@ export function runJS(){
     enableArrowKeys()
     field.draw()
     player.draw()
-    items.draw();
+    //items.draw();
     statusBar.draw(player.lifePoints)
-    openWindowsQuestion();
+    question.openWindowsQuestion();
     if(player.lifePoints < 1) {
         //disableArrowKeys()
         GameDep.GameOver()
-    }
-}
-
-GameDep.canvas.onmousedown = mouseClickHandler
-GameDep.canvas.onmousemove = mousePositionEvent;
-GameDep.intervalId = setInterval(runJS, 100);
-
-
-function openWindowsQuestion() {
-    if (GameDep.gameStatus === 1) {
-        if (!GameDep.questTriggered) {
-            (async () => {
-                try {
-                    const dataa = await data.getQuest(); // Promise auflösen
-                    const jsonString = JSON.stringify(dataa, null, 2); // JSON-String mit Formatierung
-                    GameDep.takeQuest = jsonString
-                } catch (error) {
-                    console.error('Fehler:', error);
-                }
-            })();
-        }
-        items.findBook(GameDep.takeQuest)
-        GameDep.questTriggered = true;
-        clearInterval(GameDep.intervalId);
     }
 }

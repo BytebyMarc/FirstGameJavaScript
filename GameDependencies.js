@@ -9,6 +9,12 @@ export default class GameDependencies {
         this.canvasWidth = this.canvas.width;
         this.canvasHeight = this.canvas.height;
         this.gameStatus = 0;
+            // 0 = Normaler Modus
+            // 1 = Fragenfenster ist geöffnet
+            // 2 =
+            // 3 = Antwort wird geprüft // enter setzt auch den status 3
+            // 4 = KAMPFARENA
+            // 5 = Dungeon
         this.questTriggered = false;
         this.intervalId = "";
         this.takeQuest = []
