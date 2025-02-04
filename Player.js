@@ -5,15 +5,16 @@ export default class Player {
         this.fieldSizeY = GameDep.fieldSizeY;
         this.name = "Marc"
         this.lifePoints = 100
+        this.maxLifePoints = 150
         this.lastPositionID = 103
         this.tileImages = GameDep.tileImages;
-        this.attack1 = "first";
+        this.attack1 = "Feuerball";
         this.attack1Hit = 20;
-        this.attack2 = "second";
+        this.attack2 = "Kohlewurf";
         this.attack2Hit = 30;
-        this.attack3 = "third";
+        this.attack3 = "Flügelschlag";
         this.attack3Hit = 20;
-        this.attack4 = "fourth";
+        this.attack4 = "Anbrüllen";
         this.attack4Hit = 10;
     }
     move(direction, setLastPositionID) {

@@ -3,10 +3,10 @@ export { arrowKeyHandlers };
 
 const arrowKeyHandlers = {
     Enter: () =>{
-        GameDep.setGameStatus(3)
+        GameDep.setGameStatus(0)
         GameDep.questTriggered = false;
         overlay.style.display = 'none';
-        GameDep.intervalId = setInterval(runJS, 100);
+
     },
     ArrowUp: () => {
         const neighborID = neighbors.getNorth(player.getLastPositionID());

@@ -1,4 +1,4 @@
-import {GameDep, items, neighbors, player} from "./main.js";
+import {field, GameDep, items, neighbors, player} from "./main.js";
 
 export default class Items {
     constructor(GameDep) {
@@ -32,14 +32,16 @@ export default class Items {
 
     dropItem(random, name, itemSort, playerLifePoints) {
         let newItem = {ID: random, name: name, itemSort: itemSort, playerLifePoints: playerLifePoints};
+
+        if(field.getArtById(random) === "MOUNTAIN") {
+            field.updateArtById(random, "GRASS")
+        }
         this.itemList.push(newItem);
         //Die id ist in diesem fall das Feld auf dem DAs Item Dropped
     }
     findItem() {
         if (items.itemList.some(item => item.ID === player.getLastPositionID()) && GameDep.gameStatus !== 3) {
             GameDep.setGameStatus(1)
-            player.setPlayerLifePoints(10)
-            console.log("Buch gefunden")
             return true
         } else {
             GameDep.setGameStatus(0)

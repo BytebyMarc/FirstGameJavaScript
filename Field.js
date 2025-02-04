@@ -140,4 +140,14 @@ export default class Field{
         arrayGrid.forEach(array => array.splice(this.howManyBoxes-1,0, this.generateCols()));
         this.renewArray()
     }
+    updateArtById(id, neuerWert) {
+        const zeile = Math.floor(id / 16);
+        const spalte = id % 16;
+        arrayGrid[zeile][spalte].art = neuerWert;
+    }
+    getArtById(id) {
+        const zeile = Math.floor(id / 16);
+        const spalte = id % 16;
+        return arrayGrid[zeile][spalte].art
+    }
 }

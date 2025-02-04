@@ -1,4 +1,4 @@
-import {GameDep, player} from "./main.js";
+import {field, GameDep, player} from "./main.js";
 
 export default class Enemy{
     constructor(GameDep) {
@@ -15,6 +15,9 @@ export default class Enemy{
 dropEnemy(random, name, hitpoint, defensive, speed, critical, attack1, attack1Hit, attack2, attack2Hit,
           attack3, attack3Hit, attack4, attack4Hit)
     {
+        if(field.getArtById(random) === "MOUNTAIN") {
+            field.updateArtById(random, "GRASS")
+        }
         let newEnemy = {
             ID: random,
             name: name,

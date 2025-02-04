@@ -1,4 +1,4 @@
-import {GameDep} from "./main.js";
+import {attack, player, enemy, field, GameDep} from "./main.js";
 import {enableArrowKeys, disableArrowKeys, disableAttackKeyHandlers, enableAttackKeyHandlers, } from "./events/keyHandler.js";
 
 export default class Attack {
@@ -14,6 +14,13 @@ export default class Attack {
         this.playerAttack2 = player.attack2
         this.playerAttack3 = player.attack3
         this.playerAttack4 = player.attack4
+        this.ctx.shadowColor = "rgba(0,0,0, 0.7)";
+        this.ctx.shadowBlur = 10;
+        this.ctx.shadowOffsetX = 4;
+        this.ctx.shadowOffsetY = 4;
+        this.ctx.fillStyle = "#D3D3D3";
+        this.selectedMenuIndex = 0
+
     }
     openWindowAttack(enemy) {
         this.enemy = enemy
@@ -21,23 +28,32 @@ export default class Attack {
             disableArrowKeys()
             enableAttackKeyHandlers()
             clearInterval(GameDep.intervalId);
-            this.ctx.shadowColor = "rgba(0,0,0, 0.7)";
-            this.ctx.shadowBlur = 10;
-            this.ctx.shadowOffsetX = 4;
-            this.ctx.shadowOffsetY = 4;
-            this.ctx.fillStyle = "#D3D3D3";
-            if (this.selectedMenuIndex === undefined) {
-                this.selectedMenuIndex = 0; // 0: "Item", 1: "Attacken"
-            }
-            this.drawRoundedRect(this.ctx, 50, 50, 700, 700, 15);
-            this.drawBattleMenu()
-            this.drawEnemyHealthBar()
-            this.drawEnemyImage()
+            GameDep.intervalId = setInterval(this.attackJS.bind(this), 100);
             console.log(enemy);
         }
         else {
             //  disableAttackKeyHandlers()      //  enableArrowKeys()
-        }}
+        }
+    }
+    attackJS(){
+        GameDep.ctx.clearRect(0, 0, GameDep.canvasWidth, GameDep.canvasHeight);
+        field.draw();
+        this.drawRoundedRect(this.ctx, 50, 50, 700, 700, 15);
+        if(this.selectedMenuIndex ===0 || this.selectedMenuIndex ===1){
+            this.drawBattleMenu()
+        }
+        if(this.selectedMenuIndex === 4)
+        {
+            this.drawAttackMenu()
+        }
+        this.drawHealthBar(80,80,enemy.enemyList[0].hitpoint,enemy.enemyList[0].maxHitpoint)
+        this.drawHealthBar(400,580,player.lifePoints,150)
+        this.drawEnemyImage()
+        this.drawPlayerImage()
+
+    }
+
+
     drawRoundedRect(ctx, x, y, width, height, radius) {
         ctx.beginPath();
         ctx.moveTo(x + radius, y);
@@ -151,16 +167,20 @@ drawAttackMenu(enemy){
         optionY += lineHeight;
     }
     this.ctx.restore();
-    console.log("attack menü")
+   // console.log("attack menü")
 }
 drawItemMenu(){
     this.drawRoundedRect(this.ctx, 50, 50, 700, 700, 15);
     console.log("item menü")
 }
-drawEnemyHealthBar() {
+drawHealthBar(xPos , yPos, hitpoint, maxHitpoint) {
+        if(hitpoint <= 0)
+        {
+            hitpoint = 0
+        }
         // Position und Dimension des Lebensbalkens
-        const x = 80;   // Abstand vom linken Rand
-        const y = 80;   // Abstand vom oberen Rand
+        const x = xPos;   // Abstand vom linken Rand
+        const y = yPos;   // Abstand vom oberen Rand
         const barWidth = 300; // Breite des Balkens
         const barHeight = 30; // Höhe des Balkens
 
@@ -173,7 +193,7 @@ drawEnemyHealthBar() {
 
         // Berechne den Anteil der aktuellen HP
         // (Stelle sicher, dass newEnemy.maxHitpoint definiert ist!)
-        const healthPercentage = this.enemy.hitpoint / this.enemy.maxHitpoint;
+        const healthPercentage = hitpoint / maxHitpoint;
         const filledWidth = barWidth * healthPercentage;
 
         // Zeichne den gefüllten Teil des Lebensbalkens (grün)
@@ -188,7 +208,7 @@ drawEnemyHealthBar() {
         // Optional: Zeige den Text "HP: aktueller Wert / Maximalwert" im Balken an
         this.ctx.fillStyle = "#000";
         this.ctx.font = "16px Arial";
-        const hpText = `HP: ${this.enemy.hitpoint} / ${this.enemy.maxHitpoint}`;
+        const hpText = `HP: ${hitpoint} / ${maxHitpoint}`;
         this.ctx.fillText(hpText, x + 10, y + barHeight - 7);
 
         this.ctx.restore();
@@ -216,8 +236,34 @@ drawEnemyHealthBar() {
                 this.ctx.drawImage(this.enemyImage, imageX, imageY, imageWidth, imageHeight);
             };
         }
+
     }
 
+    drawPlayerImage() {
+        // Positionierung: Der Lebensbalken befindet sich bei (50, 50) mit einer Höhe von 30.
+        // Wir platzieren das Bild 20px unterhalb des Balkens.
+        const imageX = 420;
+        const imageY = 320; // 50 (oben) + 30 (Balkenhöhe) + 20 (Abstand)
+
+        // Definiere die Größe des Bildes (anpassbar)
+        const imageWidth = 250;
+        const imageHeight = 250;
+
+        // Prüfen, ob das Bild bereits geladen wurde.
+        if (this.playerImage) {
+            this.ctx.drawImage(this.playerImage, imageX, imageY, imageWidth, imageHeight);
+        } else {
+            // Falls das Bild noch nicht geladen wurde, erstellen wir ein neues Image-Objekt
+            this.playerImage = new Image();
+            // Bitte passe den Pfad zur Bilddatei an
+            this.playerImage.src = "assets/dragon.png";
+            // Sobald das Bild geladen ist, wird es gezeichnet.
+            this.playerImage.onload = () => {
+                this.ctx.drawImage(this.playerImage, imageX, imageY, imageWidth, imageHeight);
+            };
+        }
+
+    }
 
 
 

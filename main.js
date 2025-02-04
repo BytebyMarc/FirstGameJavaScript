@@ -27,7 +27,7 @@ let statusBar = new Statusbar(GameDep);
 
 GameDep.canvas.addEventListener('click', mouseClickHandler(player, GameDep));
 GameDep.container.addEventListener('click', (event) => {question.checkAnswer(event); });
-document.addEventListener('keydown', (event) => { eventManager.emit(event.key); });
+document.addEventListener('keydown', (event) => { eventManager.emit(event.key, event); });
 enableArrowKeys();
 GameDep.canvas.onmousedown = mouseClickHandler;
 GameDep.canvas.onmousemove = mousePositionEvent;
@@ -41,7 +41,7 @@ export function runJS(){
     player.draw();
     items.drawBook();
     enemy.drawEnemy();
-    statusBar.draw(player.lifePoints);
+    statusBar.draw(player.lifePoints, player.maxLifePoints);
     question.openWindowsQuestion();
     attack.openWindowAttack(enemy.enemyList[0]);
     if(player.lifePoints < 1) {

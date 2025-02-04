@@ -8,6 +8,7 @@ export default class GameDependencies {
         this.ctx = this.canvas.getContext("2d");
         this.canvasWidth = this.canvas.width;
         this.canvasHeight = this.canvas.height;
+        this.questTriggered = false;
         this.gameStatus = 0;
             // 0 = Normaler Modus
             // 1 = Fragenfenster ist geöffnet
@@ -37,10 +38,58 @@ export default class GameDependencies {
         this.tileImages.FOREST.src = 'assets/forrest.png';
         this.tileImages.MOUNTAIN.src = 'assets/mountain.png';
     }
-    randomID()
-    {
-        return this.random = Math.floor(Math.random() * this.howManyBoxes * this.howManyBoxes);
+    randomID() {
+        let random = Math.floor(Math.random() * this.howManyBoxes * this.howManyBoxes);
+        let run = 0
+        let one = 0
+        let two = 0
+        let three = 0
+        let four = 0
+
+        while (run === 0) {
+            if (random <= this.howManyBoxes) {
+                random = Math.floor(Math.random() * this.howManyBoxes * this.howManyBoxes);
+                one = 0
+                two = 0
+                three = 0
+                four = 0
+            } else {
+                one = 1
+            }
+            if (random > ((this.howManyBoxes * this.howManyBoxes)-16)) {
+                random = Math.floor(Math.random() * this.howManyBoxes * this.howManyBoxes);
+                one = 0
+                two = 0
+                three = 0
+                four = 0
+            } else {
+                 two = 2
+            }
+
+            if (random % this.howManyBoxes === 0) {
+                random = Math.floor(Math.random() * this.howManyBoxes * this.howManyBoxes);
+                one = 0
+                two = 0
+                three = 0
+                four = 0
+            } else {
+                three = 3
+                }
+
+            if ((random+1) % this.howManyBoxes === 0) {
+                random = Math.floor(Math.random() * this.howManyBoxes * this.howManyBoxes);
+                one = 0
+                two = 0
+                three = 0
+                four = 0
+            }else {four = 4 }
+
+                if (one === 1 && two === 2 && three === 3 && four === 4) {
+                    return random;
+                }
+        }
     }
+
     setGameStatus(status)
     {
         this.gameStatus = status;

@@ -1,4 +1,4 @@
-import {GameDep, items, runJS} from "./main.js";
+import {GameDep, items, player, runJS} from "./main.js";
 
 export default class Question {
     constructor(data) {
@@ -6,19 +6,29 @@ export default class Question {
     }
 
     openWindowsQuestion() {
-        if (GameDep.gameStatus === 1) {
-
-            if (!GameDep.questTriggered) {
-                (async () => {
-                    try {
+        if (GameDep.gameStatus === 1 && GameDep.questTriggered === false) {
+            (async () => {
+                try {
+                    let jsonString = null; // Initialisierung außerhalb
+                    do {
                         const quest = await this.data.getQuest(); // Promise auflösen
-                        const jsonString = JSON.stringify(quest, null, 2); // JSON-String mit Formatierung
-                        GameDep.takeQuest = jsonString
-                    } catch (error) {
-                        console.error('Fehler:', error);
-                    }
-                })();
-            }
+                        if (quest) {
+                            jsonString = JSON.stringify(quest, null, 2); // Nutze die bereits deklarierte Variable
+                            GameDep.takeQuest = jsonString;
+                            if (jsonString) {
+                                GameDep.questTriggered = true;
+                                console.log("trrretere");
+                            }
+                        } else {
+                            console.log("WARNUNG");
+                        }
+                    } while (!jsonString && GameDep.questTriggered === false);
+                } catch (error) {
+                    console.error('Fehler:', error);
+                }
+            })();
+        }
+            if (GameDep.gameStatus === 1){
             items.findBook(GameDep.takeQuest)
             GameDep.questTriggered = true;
             clearInterval(GameDep.intervalId);
@@ -31,6 +41,9 @@ export default class Question {
             let control = "answer" + items.correctAnswer
             if (control === event.target.id) {
                 GameDep.exPoints = 15;
+                player.setPlayerLifePoints(10)
+                const index = items.itemList.findIndex(item => item.ID === player.getLastPositionID());
+                items.itemList.splice(index, 1);
                 console.log(`Richtige Antwort`);
             }
         }
