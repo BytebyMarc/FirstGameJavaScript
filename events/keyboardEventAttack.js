@@ -36,7 +36,7 @@ const attackKeyHandlers = {
             }
         }
         if(attack.enemy.hitpoint <= 0){
-            const index = enemy.enemyList.findIndex(enemy => enemy.ID === attack.enemy.id);
+            const index = enemy.enemyList.findIndex(enemy => enemy.ID === attack.enemy.ID);
             enemy.enemyList.splice(index, 1);
             if(items.itemList.length < 5)
             {
@@ -52,12 +52,13 @@ const attackKeyHandlers = {
             GameDep.intervalId = setInterval(runJS, 100);
             attack.selectedMenuIndex = 0
             attack.selectedAttackIndex =  undefined
+            delete attack.enemyImage
             enemy.dropEnemy(GameDep.randomID(), "MAGIER", 150, 15,20,10,
                 "Feuerball",40,"iceball", 25, "Flügelschlag", 50, "Heilung", -50);
         }
 
         if(attack.switchMenu === "Attack"){
-            enemy.enemyList[0].hitpoint = enemy.enemyList[0].hitpoint - player.attack1Hit
+            attack.enemy.hitpoint = attack.enemy.hitpoint - player.attack1Hit
             console.log(attack.selectedAttackIndex)
         }
 

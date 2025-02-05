@@ -26,6 +26,7 @@ if(GameDepParsed){
     }
 
 export let GameDep = GameDepInstance;
+
 GameDep.canvas = document.getElementById("myCanvas");
 GameDep.container = document.querySelector('.overlay');
 GameDep.ctx = GameDep.canvas.getContext("2d");
@@ -37,7 +38,9 @@ GameDep.tileImages = {
     FOREST: new Image(),
     MOUNTAIN: new Image(),
     CITY: new Image(),
-    MAGIER: new Image()
+    MAGIER: new Image(),
+    ZAUBERER: new Image(),
+    MONSTER: new Image(),
 };
 GameDep.tileImages.DRAGON.src = 'assets/dragon.png';
 GameDep.tileImages.BOOK.src = 'assets/Book.png';
@@ -46,7 +49,8 @@ GameDep.tileImages.GRASS.src = 'assets/grass.png';
 GameDep.tileImages.WATER.src = 'assets/water.png';
 GameDep.tileImages.FOREST.src = 'assets/forrest.png';
 GameDep.tileImages.MOUNTAIN.src = 'assets/mountain.png';
-
+GameDep.tileImages.ZAUBERER.src = 'assets/zauberer.png';
+GameDep.tileImages.MONSTER.src = 'assets/monster1.png';
 
 let playerInstance
 let playerParsed = localStorage.getItem("Player");
@@ -59,7 +63,7 @@ if(playerParsed){
 }else{
     playerInstance = new Player(GameDep);
 }
-export let player = playerInstance;
+export let player = playerInstance
 
 let fieldInstance
 let fieldParsed = localStorage.getItem("FieldC");
@@ -68,11 +72,12 @@ if(fieldParsed){
     fieldInstance = new Field(GameDep);
     fieldInstance.ctx = GameDep.canvas.getContext("2d");
     fieldInstance.tileImages = GameDep.tileImages;
+    arrayGrid = fieldParsed
 } else {
     fieldInstance = new Field(GameDep);
 }
-export let field = fieldInstance;
-arrayGrid = fieldParsed
+export let field = fieldInstance
+
 
 export let neighbors = new Neighbors(GameDep);
 
@@ -111,13 +116,15 @@ export function runJS(){
     player.draw();
     items.drawBook();
     enemy.drawEnemy();
+    player.drawItemMenu()
     statusBar.draw(player.lifePoints, player.maxLifePoints, player.experiencePoints , player.experiencePointsNextLevel);
     player.drawLevel(player.playerLevel)
     question.openWindowsQuestion();
-    attack.openWindowAttack(enemy.enemyList[0]);
+    attack.openWindowAttack();
     if(player.lifePoints < 1) {
         //disableArrowKeys()
         GameDep.GameOver();
+        player.lifePoints = 10;
     }
 
     saveGame(GameDep, player, arrayGrid, items.itemList, attack, enemy);

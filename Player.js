@@ -48,7 +48,7 @@ export default class Player {
             return this.lifePoints
         }
         else {
-            this.lifePoints = 100
+            this.lifePoints = this.maxLifePoints
         }
     }
     levelCalculator(plusXpPoints){
@@ -96,4 +96,37 @@ export default class Player {
         this.ctx.fillStyle = "#FFF";
         this.ctx.fillText(levelText, xLevel, yLevel);
     }
+    drawItemMenu() {
+        // Fülle den Hintergrund (ganzes Canvas)
+        this.ctx.fillStyle = "#DCDCDC"; // entspricht ca. background(220) in p5.js
+
+
+        // Definiere den Inventarbereich
+        const inventoryHeight = 30;
+        const inventoryY = 800 - inventoryHeight;
+
+        // Zeichne den Hintergrund des Inventarbereichs
+        //this.ctx.fillStyle = "rgb(50,50,50)";
+        this.ctx.fillRect(200, inventoryY, 400, inventoryHeight);
+
+        // Anzahl der Slots
+        const numSlots = 6;
+        const slotMargin = 1;
+        const slotWidth = (400 - (numSlots + 1) * slotMargin) / numSlots;
+        const slotHeight = inventoryHeight - 2 * slotMargin;
+
+        for (let i = 0; i < numSlots; i++) {
+            const x = 200 +slotMargin + i * (slotWidth + slotMargin);
+            const y = inventoryY + slotMargin;
+
+            // Slot-Hintergrund
+            this.ctx.fillStyle = "rgb(200,200,200)";
+            this.ctx.fillRect(x, y, slotWidth, slotHeight);
+
+            // Rahmen um den Slot
+            this.ctx.strokeStyle = "rgb(0,0,0)";
+            this.ctx.strokeRect(x, y, slotWidth, slotHeight);
+        }
+
+}
 }

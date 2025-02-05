@@ -1,4 +1,4 @@
-import {field, GameDep, player} from "./main.js";
+import {attack, field, GameDep, player} from "./main.js";
 
 export default class Enemy{
     constructor(GameDep) {
@@ -9,6 +9,16 @@ export default class Enemy{
         this.intervalId = GameDep.intervalId;
         this.enemyList = []
         this.dropEnemy(GameDep.randomID(), "MAGIER", 150, 15,20,10,
+            "Feuerball",40,"iceball", 25, "Flügelschlag", 50, "Heilung", -50);
+         this.dropEnemy(GameDep.randomID(), "ZAUBERER", 150, 15,20,10,
+             "Feuerball",40,"iceball", 25, "Flügelschlag", 50, "Heilung", -50);
+        this.dropEnemy(GameDep.randomID(), "MONSTER", 150, 15,20,10,
+            "Feuerball",40,"iceball", 25, "Flügelschlag", 50, "Heilung", -50);
+        this.dropEnemy(GameDep.randomID(), "MAGIER", 150, 15,20,10,
+            "Feuerball",40,"iceball", 25, "Flügelschlag", 50, "Heilung", -50);
+        this.dropEnemy(GameDep.randomID(), "ZAUBERER", 150, 15,20,10,
+            "Feuerball",40,"iceball", 25, "Flügelschlag", 50, "Heilung", -50);
+        this.dropEnemy(GameDep.randomID(), "MONSTER", 150, 15,20,10,
             "Feuerball",40,"iceball", 25, "Flügelschlag", 50, "Heilung", -50);
     }
 
@@ -42,8 +52,11 @@ dropEnemy(random, name, hitpoint, defensive, speed, critical, attack1, attack1Hi
 findEnemy()
 {
     if (this.enemyList.some(enemy => enemy.ID === player.getLastPositionID()) && GameDep.gameStatus !== 3) {
+
+        attack.enemy = this.enemyList.find(enemy => enemy.ID === player.getLastPositionID())
+        console.log(attack.enemy)
+        console.log("was hier los")
         GameDep.setGameStatus(4)
-        console.log("gegner gefunden")
         return true
     } else {
         GameDep.setGameStatus(0)
@@ -51,6 +64,7 @@ findEnemy()
 
 }
 drawEnemy() {
+
         for (let i = 0; i < this.enemyList.length; i++) {
             let result = arrayGrid.flat().find(cell => cell.ID === this.enemyList[i].ID);
             let img = this.tileImages[this.enemyList[i].name];

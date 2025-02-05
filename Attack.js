@@ -20,22 +20,23 @@ export default class Attack {
         this.ctx.shadowOffsetY = 4;
         this.ctx.fillStyle = "#D3D3D3";
         this.selectedMenuIndex = 0
+        this.enemyImage = ""
 
     }
-    openWindowAttack(enemy) {
-        this.enemy = enemy
+    openWindowAttack() {
         if (GameDep.gameStatus === 4) {
             disableArrowKeys()
             enableAttackKeyHandlers()
             clearInterval(GameDep.intervalId);
             GameDep.intervalId = setInterval(this.attackJS.bind(this), 100);
-            console.log(enemy);
+            console.log(attack.enemy);
         }
         else {
             //  disableAttackKeyHandlers()      //  enableArrowKeys()
         }
     }
     attackJS(){
+        console.log(attack.enemy)
         GameDep.ctx.clearRect(0, 0, GameDep.canvasWidth, GameDep.canvasHeight);
         field.draw();
         this.drawRoundedRect(this.ctx, 50, 50, 700, 700, 15);
@@ -46,7 +47,7 @@ export default class Attack {
         {
             this.drawAttackMenu()
         }
-        this.drawHealthBar(80,80,enemy.enemyList[0].hitpoint,enemy.enemyList[0].maxHitpoint)
+        this.drawHealthBar(80,80,attack.enemy.hitpoint,attack.enemy.maxHitpoint)
         this.drawHealthBar(400,580,player.lifePoints,150)
         this.drawEnemyImage()
         this.drawPlayerImage()
@@ -225,15 +226,27 @@ drawHealthBar(xPos , yPos, hitpoint, maxHitpoint) {
 
         // Prüfen, ob das Bild bereits geladen wurde.
         if (this.enemyImage) {
+
             this.ctx.drawImage(this.enemyImage, imageX, imageY, imageWidth, imageHeight);
+
         } else {
             // Falls das Bild noch nicht geladen wurde, erstellen wir ein neues Image-Objekt
+
             this.enemyImage = new Image();
             // Bitte passe den Pfad zur Bilddatei an
-            this.enemyImage.src = "assets/magier.png";
+            if(attack.enemy.name === "MAGIER") {
+                this.enemyImage.src = "assets/magier.png";
+            }
+            if(attack.enemy.name === "ZAUBERER") {
+                this.enemyImage.src = "assets/zauberer.png";
+            }
+            if(attack.enemy.name === "MONSTER") {
+                this.enemyImage.src = "assets/monster1.png";
+            }
             // Sobald das Bild geladen ist, wird es gezeichnet.
             this.enemyImage.onload = () => {
                 this.ctx.drawImage(this.enemyImage, imageX, imageY, imageWidth, imageHeight);
+
             };
         }
 
