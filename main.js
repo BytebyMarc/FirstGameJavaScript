@@ -10,23 +10,86 @@ import Question from "./Question.js";
 import EventManager from './events/EventManager.js';
 import {enableArrowKeys, disableArrowKeys} from './events/keyHandler.js';
 import {mouseClickHandler, mousePositionEvent} from './events/mouseEvent.js';
+import {saveGame} from "./SaveGame.js"
 import Statusbar from './statusbar.js';
 import Data from './Dataloader/Data.js';
 
-let GameDep = localStorage.getItem("GameDep");
-if(GameDep){
-   export default GameDep = JSON.parse(GameDep);
+
+let GameDepInstance
+let GameDepParsed = localStorage.getItem("GameDep");
+if(GameDepParsed){
+    GameDepParsed = JSON.parse(GameDepParsed);
+     GameDepInstance = new GameDependencies(16);
+    Object.assign(GameDepInstance, GameDepParsed);
+    }else{
+        GameDepInstance = new GameDependencies(16);
+    }
+
+export let GameDep = GameDepInstance;
+GameDep.canvas = document.getElementById("myCanvas");
+GameDep.container = document.querySelector('.overlay');
+GameDep.ctx = GameDep.canvas.getContext("2d");
+GameDep.tileImages = {
+    DRAGON: new Image(),
+    BOOK: new Image(),
+    GRASS: new Image(),
+    WATER: new Image(),
+    FOREST: new Image(),
+    MOUNTAIN: new Image(),
+    CITY: new Image(),
+    MAGIER: new Image()
+};
+GameDep.tileImages.DRAGON.src = 'assets/dragon.png';
+GameDep.tileImages.BOOK.src = 'assets/Book.png';
+GameDep.tileImages.MAGIER.src = 'assets/magier.png';
+GameDep.tileImages.GRASS.src = 'assets/grass.png';
+GameDep.tileImages.WATER.src = 'assets/water.png';
+GameDep.tileImages.FOREST.src = 'assets/forrest.png';
+GameDep.tileImages.MOUNTAIN.src = 'assets/mountain.png';
+
+
+let playerInstance
+let playerParsed = localStorage.getItem("Player");
+if(playerParsed){
+    playerParsed = JSON.parse(playerParsed);
+    playerInstance = new Player(GameDep);
+    Object.assign(playerInstance, playerParsed)
+    playerInstance.ctx = GameDep.canvas.getContext("2d");
+    playerInstance.tileImages = GameDep.tileImages;
 }else{
-export default GameDep = new GameDependencies(16);
+    playerInstance = new Player(GameDep);
 }
+export let player = playerInstance;
 
+let fieldInstance
+let fieldParsed = localStorage.getItem("FieldC");
+if(fieldParsed){
+    fieldParsed = JSON.parse(fieldParsed);
+    fieldInstance = new Field(GameDep);
+    fieldInstance.ctx = GameDep.canvas.getContext("2d");
+    fieldInstance.tileImages = GameDep.tileImages;
+} else {
+    fieldInstance = new Field(GameDep);
+}
+export let field = fieldInstance;
+arrayGrid = fieldParsed
 
-export let player = new Player(GameDep);
-export let field = new Field(GameDep);
 export let neighbors = new Neighbors(GameDep);
-export let items = new Items(GameDep);
+
+let itemsInstance
+let itemsParsed = localStorage.getItem("Item");
+if(itemsParsed){
+    itemsParsed = JSON.parse(itemsParsed);
+    itemsInstance = new Items(GameDep);
+    itemsInstance.itemList = itemsParsed
+}else {
+ itemsInstance = new Items(GameDep);
+}
+export let items = itemsInstance;
 export let attack = new Attack(GameDep, player);
 export let enemy = new Enemy(GameDep);
+
+
 export let data = new Data();
 export let question = new Question(data);
 export const eventManager = new EventManager();
@@ -56,4 +119,6 @@ export function runJS(){
         //disableArrowKeys()
         GameDep.GameOver();
     }
+
+    saveGame(GameDep, player, arrayGrid, items.itemList, attack, enemy);
 }

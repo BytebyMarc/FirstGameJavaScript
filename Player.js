@@ -44,7 +44,7 @@ export default class Player {
     }
     setPlayerLifePoints(playerLifePoints){
         this.lifePoints += playerLifePoints;
-        if (this.lifePoints < 100){
+        if (this.lifePoints < this.maxLifePoints){
             return this.lifePoints
         }
         else {
