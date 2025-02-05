@@ -13,7 +13,14 @@ import {mouseClickHandler, mousePositionEvent} from './events/mouseEvent.js';
 import Statusbar from './statusbar.js';
 import Data from './Dataloader/Data.js';
 
-export const GameDep = new GameDependencies(16);
+let GameDep = localStorage.getItem("GameDep");
+if(GameDep){
+   export default GameDep = JSON.parse(GameDep);
+}else{
+export default GameDep = new GameDependencies(16);
+}
+
+
 export let player = new Player(GameDep);
 export let field = new Field(GameDep);
 export let neighbors = new Neighbors(GameDep);
@@ -41,7 +48,8 @@ export function runJS(){
     player.draw();
     items.drawBook();
     enemy.drawEnemy();
-    statusBar.draw(player.lifePoints, player.maxLifePoints);
+    statusBar.draw(player.lifePoints, player.maxLifePoints, player.experiencePoints , player.experiencePointsNextLevel);
+    player.drawLevel(player.playerLevel)
     question.openWindowsQuestion();
     attack.openWindowAttack(enemy.enemyList[0]);
     if(player.lifePoints < 1) {

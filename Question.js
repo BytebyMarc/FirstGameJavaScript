@@ -40,10 +40,11 @@ export default class Question {
 
             let control = "answer" + items.correctAnswer
             if (control === event.target.id) {
-                GameDep.exPoints = 15;
+
                 player.setPlayerLifePoints(10)
                 const index = items.itemList.findIndex(item => item.ID === player.getLastPositionID());
                 items.itemList.splice(index, 1);
+                player.levelCalculator(5)
                 console.log(`Richtige Antwort`);
             }
         }

@@ -44,6 +44,7 @@ const attackKeyHandlers = {
                 items.dropItem(GameDep.randomID(), "BOOK", 1, 10);
                 items.dropItem(GameDep.randomID(), "BOOK", 1, 10);
             }
+            player.levelCalculator(15)
             disableAttackKeyHandlers()
             enableArrowKeys()
             GameDep.setGameStatus(0)

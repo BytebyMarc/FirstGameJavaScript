@@ -5,7 +5,10 @@ export default class Player {
         this.fieldSizeY = GameDep.fieldSizeY;
         this.name = "Marc"
         this.lifePoints = 100
-        this.maxLifePoints = 150
+        this.maxLifePoints = 100
+        this.experiencePoints = 0;
+        this.experiencePointsNextLevel = 50
+        this.playerLevel = 1;
         this.lastPositionID = 103
         this.tileImages = GameDep.tileImages;
         this.attack1 = "Feuerball";
@@ -48,8 +51,20 @@ export default class Player {
             this.lifePoints = 100
         }
     }
-    canMove(direction) {
-        //move is possible
+    levelCalculator(plusXpPoints){
+
+        let totalPoints = this.experiencePoints + plusXpPoints;
+
+        if(totalPoints >= this.experiencePointsNextLevel){
+            this.playerLevel = this.playerLevel + 1;
+            this.experiencePoints = totalPoints - this.experiencePointsNextLevel;
+            this.experiencePointsNextLevel = this.experiencePointsNextLevel * 2;
+            this.maxLifePoints = this.maxLifePoints + 10
+        }else
+        {
+            this.experiencePoints = this.experiencePoints + plusXpPoints;
+
+        }
     }
     draw() {
         const result = arrayGrid.flat().find(cell => cell.ID === this.lastPositionID);
@@ -61,5 +76,24 @@ export default class Player {
             this.ctx.fillRect(result.gridX, result.gridY, this.fieldSizeX, this.fieldSizeY);
         }
         //console.log("last posistion:" + this.lastPositionID)
+    }
+    drawLevel(level) {
+        // Bereite den Level-Text vor
+        const levelText = `Level: ${level}`;
+
+        // Setze die Schriftart (z.B. 16px Arial)
+        this.ctx.font = "bold 24px sans-serif";
+
+        // Messe die Breite des Textes, um ihn rechts auszurichten
+        const textWidth = this.ctx.measureText(levelText).width;
+
+        // Berechne die Position: 20 Pixel Abstand vom rechten Rand und oben
+        const xLevel = 800 - textWidth - 20;
+        // Die y-Position ist 20px vom oberen Rand plus die Schriftgröße (als Näherung)
+        const yLevel = 20 + 16;
+
+        // Setze die Textfarbe (z.B. Weiß) und zeichne den Text
+        this.ctx.fillStyle = "#FFF";
+        this.ctx.fillText(levelText, xLevel, yLevel);
     }
 }
