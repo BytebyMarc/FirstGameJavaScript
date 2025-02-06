@@ -3,17 +3,12 @@ import {disableAttackKeyHandlers, enableArrowKeys} from "./keyHandler.js";
 
 export {attackKeyHandlers};
 const attackKeyHandlers = {
-    Escape: () =>{
-        GameDep.setGameStatus(0)
+    Escape: (key) =>{
+        selectMenu(key)
     },
     Enter: () =>{
-        if (attack.selectedMenuIndex === 0) {
-            attack.selectedMenuIndex = 4 // attackmenu
-        }
-        if (attack.selectedMenuIndex === 1){
-            attack.selectedMenuIndex = 5 // item menu
-        }
 
+        if(attack.selectedMenuIndex === 4){
         if(attack.enemy.hitpoint >= 0) {
 
             switch (attack.selectedAttackIndex) {
@@ -34,7 +29,23 @@ const attackKeyHandlers = {
                     console.log(attack.selectedAttackIndex)
                     break;
             }
+            }
         }
+        if(attack.selectedMenuIndex === 5){
+            // Item menü was passiert hier ?
+            let index = attack.selectedItemIndex
+            player.bag.splice(index, 1);
+
+        }
+        if (attack.selectedMenuIndex === 0) {
+            attack.selectedMenuIndex = 4; // Attacken-Menü aktivieren
+            attack.selectedAttackIndex = 0;
+        }
+        if (attack.selectedMenuIndex === 1) {
+            attack.selectedMenuIndex = 5; // Item-Menü aktivieren
+        }
+
+
         if(attack.enemy.hitpoint <= 0){
             const index = enemy.enemyList.findIndex(enemy => enemy.ID === attack.enemy.ID);
             enemy.enemyList.splice(index, 1);
@@ -72,20 +83,41 @@ const attackKeyHandlers = {
 }
 
 
-function selectMenu(key){
-        if (attack.selectedMenuIndex === 0 && attack.selectedMenuIndex < 2) {
-            attack.selectedMenuIndex = 1; // 0: "Item", 1: "Attacken"
+function selectMenu(key) {
+    if (attack.selectedMenuIndex < 2) {
+        if (key.key === "ArrowUp") {
+            attack.selectedMenuIndex = (attack.selectedMenuIndex - 1 + 2) % 2;
         }
-        if (attack.selectedMenuIndex === 1 && attack.selectedMenuIndex < 2) {
-            attack.selectedMenuIndex = 0;
+        if (key.key === "ArrowDown") {
+            attack.selectedMenuIndex = (attack.selectedMenuIndex + 1) % 2;
         }
-    if(attack.selectedMenuIndex === 4 && key.key === "ArrowUp")
-    {
-        attack.selectedAttackIndex = (attack.selectedAttackIndex - 1 + 4) % 4;
-    }
-    if(attack.selectedMenuIndex === 4 && key.key === "ArrowDown")
-    {
-        attack.selectedAttackIndex = (attack.selectedAttackIndex + 1) % 4;
     }
 
+    if (attack.selectedMenuIndex === 4) {
+        if (key.key === "ArrowUp") {
+            attack.selectedAttackIndex = (attack.selectedAttackIndex - 1 + 4) % 4;
+        }
+        if (key.key === "ArrowDown") {
+            attack.selectedAttackIndex = (attack.selectedAttackIndex + 1) % 4;
+        }
+        if (key.key === "Escape") {
+            attack.selectedMenuIndex = 0;
+        }
+    }
+
+    if (attack.selectedMenuIndex === 5) {
+        if (key.key === "ArrowUp") {
+            attack.selectedItemIndex = (attack.selectedItemIndex - 1 + player.bag.length) % player.bag.length;
+        }
+        if (key.key === "ArrowDown") {
+            attack.selectedItemIndex = (attack.selectedItemIndex + 1) % player.bag.length;
+        }
+        if (key.key === "Escape") {
+            attack.selectedMenuIndex = 0;
+        }
+    }
 }
+
+
+
+

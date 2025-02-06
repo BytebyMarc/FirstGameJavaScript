@@ -19,6 +19,7 @@ export default class Player {
         this.attack3Hit = 20;
         this.attack4 = "Anbrüllen";
         this.attack4Hit = 10;
+        this.bag = []
     }
     move(direction, setLastPositionID) {
         switch (direction) {
@@ -96,17 +97,15 @@ export default class Player {
         this.ctx.fillStyle = "#FFF";
         this.ctx.fillText(levelText, xLevel, yLevel);
     }
-    drawItemMenu() {
+    drawItemBag() {
         // Fülle den Hintergrund (ganzes Canvas)
-        this.ctx.fillStyle = "#DCDCDC"; // entspricht ca. background(220) in p5.js
-
+        this.ctx.fillStyle = "#DCDCDC";
 
         // Definiere den Inventarbereich
         const inventoryHeight = 30;
         const inventoryY = 800 - inventoryHeight;
 
         // Zeichne den Hintergrund des Inventarbereichs
-        //this.ctx.fillStyle = "rgb(50,50,50)";
         this.ctx.fillRect(200, inventoryY, 400, inventoryHeight);
 
         // Anzahl der Slots
@@ -116,17 +115,28 @@ export default class Player {
         const slotHeight = inventoryHeight - 2 * slotMargin;
 
         for (let i = 0; i < numSlots; i++) {
-            const x = 200 +slotMargin + i * (slotWidth + slotMargin);
+            const x = 200 + slotMargin + i * (slotWidth + slotMargin);
             const y = inventoryY + slotMargin;
 
             // Slot-Hintergrund
-            this.ctx.fillStyle = "rgb(200,200,200)";
+          //  this.ctx.fillStyle = "rgb(200,200,200)";
             this.ctx.fillRect(x, y, slotWidth, slotHeight);
 
             // Rahmen um den Slot
             this.ctx.strokeStyle = "rgb(0,0,0)";
             this.ctx.strokeRect(x, y, slotWidth, slotHeight);
-        }
 
-}
+            // Falls ein Item existiert, zeige das Bild
+            if (this.bag[i]) {
+
+                let img = this.tileImages[this.bag[i].name];
+                if (img.complete) {
+                    this.ctx.drawImage(img, x + 2, y + 2, slotWidth -2, slotHeight-2);
+                }
+
+            }
+        }
+    }
+
+
 }

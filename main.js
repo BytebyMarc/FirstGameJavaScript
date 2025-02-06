@@ -41,6 +41,11 @@ GameDep.tileImages = {
     MAGIER: new Image(),
     ZAUBERER: new Image(),
     MONSTER: new Image(),
+    KAROTTE: new Image(),
+    KURBIS: new Image(),
+    PILZ: new Image(),
+    GURKE: new Image(),
+    BROKOLI: new Image()
 };
 GameDep.tileImages.DRAGON.src = 'assets/dragon.png';
 GameDep.tileImages.BOOK.src = 'assets/Book.png';
@@ -51,6 +56,11 @@ GameDep.tileImages.FOREST.src = 'assets/forrest.png';
 GameDep.tileImages.MOUNTAIN.src = 'assets/mountain.png';
 GameDep.tileImages.ZAUBERER.src = 'assets/zauberer.png';
 GameDep.tileImages.MONSTER.src = 'assets/monster1.png';
+GameDep.tileImages.KAROTTE.src = 'assets/karotte.png';
+GameDep.tileImages.KURBIS.src = 'assets/kurbis.png';
+GameDep.tileImages.PILZ.src = 'assets/pilz.png';
+GameDep.tileImages.GURKE.src = 'assets/gurke.png';
+GameDep.tileImages.BROKOLI.src = 'assets/brokoli.png';
 
 let playerInstance
 let playerParsed = localStorage.getItem("Player");
@@ -116,7 +126,7 @@ export function runJS(){
     player.draw();
     items.drawBook();
     enemy.drawEnemy();
-    player.drawItemMenu()
+    player.drawItemBag()
     statusBar.draw(player.lifePoints, player.maxLifePoints, player.experiencePoints , player.experiencePointsNextLevel);
     player.drawLevel(player.playerLevel)
     question.openWindowsQuestion();

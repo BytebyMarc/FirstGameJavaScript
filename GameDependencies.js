@@ -1,4 +1,3 @@
-
 export default class GameDependencies {
     constructor(howManyBoxes) {
         this.canvas = document.getElementById("myCanvas");
@@ -31,6 +30,11 @@ export default class GameDependencies {
             MAGIER: new Image(),
             ZAUBERER: new Image(),
             MONSTER: new Image(),
+            KAROTTE: new Image(),
+            KURBIS: new Image(),
+            PILZ: new Image(),
+            GURKE: new Image(),
+            BROKOLI: new Image()
 
         };
 
@@ -43,6 +47,11 @@ export default class GameDependencies {
         this.tileImages.MOUNTAIN.src = 'assets/mountain.png';
         this.tileImages.ZAUBERER.src = 'assets/zauberer.png';
         this.tileImages.MONSTER.src = 'assets/monster1.png';
+        this.tileImages.KAROTTE.src = 'assets/karotte.png';
+        this.tileImages.KURBIS.src = 'assets/kurbis.png';
+        this.tileImages.PILZ.src = 'assets/pilz.png';
+        this.tileImages.GURKE.src = 'assets/gurke.png';
+        this.tileImages.BROKOLI.src = 'assets/brokoli.png';
     }
     randomID() {
         let random = Math.floor(Math.random() * this.howManyBoxes * this.howManyBoxes);

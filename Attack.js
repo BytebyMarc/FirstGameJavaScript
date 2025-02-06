@@ -8,6 +8,7 @@ export default class Attack {
         this.fieldSizeX = GameDep.fieldSizeX;
         this.fieldSizeY = GameDep.fieldSizeY;
         this.intervalId = GameDep.intervalId;
+        this.tileImage = GameDep.tileImages;
         this.enemy = {}
         this.switchMenu = "Start"
         this.playerAttack1 = player.attack1
@@ -29,17 +30,16 @@ export default class Attack {
             enableAttackKeyHandlers()
             clearInterval(GameDep.intervalId);
             GameDep.intervalId = setInterval(this.attackJS.bind(this), 100);
-            console.log(attack.enemy);
         }
         else {
             //  disableAttackKeyHandlers()      //  enableArrowKeys()
         }
     }
     attackJS(){
-        console.log(attack.enemy)
+
         GameDep.ctx.clearRect(0, 0, GameDep.canvasWidth, GameDep.canvasHeight);
         field.draw();
-        this.drawRoundedRect(this.ctx, 50, 50, 700, 700, 15);
+        this.drawRoundedRectBackground(this.ctx, 50, 50, 700, 700, 15);
         if(this.selectedMenuIndex ===0 || this.selectedMenuIndex ===1){
             this.drawBattleMenu()
         }
@@ -47,13 +47,43 @@ export default class Attack {
         {
             this.drawAttackMenu()
         }
-        this.drawHealthBar(80,80,attack.enemy.hitpoint,attack.enemy.maxHitpoint)
-        this.drawHealthBar(400,580,player.lifePoints,150)
+        if(this.selectedMenuIndex === 5){
+            //item menü anzeigen
+            this.drawItemMenu()
+        }
+        this.drawHealthBar(70,70,attack.enemy.hitpoint,attack.enemy.maxHitpoint)
+        this.drawHealthBar(400,700,player.lifePoints,150)
         this.drawEnemyImage()
         this.drawPlayerImage()
 
     }
 
+
+    drawRoundedRectBackground(ctx, x, y, width, height, radius) {
+        ctx.save()
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+        ctx.clip()
+        if (this.backgroundImage) {
+            ctx.drawImage(this.backgroundImage, x, y, width, height);
+        } else {
+            this.backgroundImage = new Image();
+            this.backgroundImage.src = "assets/battelBackground.png";
+            this.backgroundImage.onload = () => {
+                ctx.drawImage(this.backgroundImage, x, y, width, height);
+            };
+        }
+        ctx.restore();
+    }
 
     drawRoundedRect(ctx, x, y, width, height, radius) {
         ctx.beginPath();
@@ -67,19 +97,21 @@ export default class Attack {
         ctx.lineTo(x, y + radius);
         ctx.quadraticCurveTo(x, y, x + radius, y);
         ctx.closePath();
-        ctx.fill();
-    }
+        ctx.clip();
+       }
 
     drawBattleMenu() {
-        const menuMargin = 50;
-        const menuWidth = 800 - 2 * menuMargin; // 700px Breite
-        const menuHeight = 100;                 // Menü-Höhe (anpassbar)
-        const menuX = menuMargin;
-        const menuY = 800 - menuMargin - menuHeight;
+        const menuMargin = 30;
+        const menuWidth = 200 - 2 * menuMargin; // 700px Breite
+        const menuHeight = 100; // Erhöhte Höhe für vertikales Layout
+        const menuX = 80;
+        const menuY = 800 - menuMargin - menuHeight -100;
+        const optionHeight = menuHeight / 2; // Höhe für jede Menüoption
+
         this.ctx.save();
 
-        // Hintergrund des Menüs (ein abgesetzter, abgerundeter Kasten)
-        this.ctx.fillStyle = "#003366"; // dunkles Blau für den Hintergrund
+        // Hintergrund des Menüs (abgerundeter Kasten)
+        this.ctx.fillStyle = "#003366"; // Dunkelblau für den Hintergrund
         this.drawRoundedRect(this.ctx, menuX, menuY, menuWidth, menuHeight, 10);
 
         // Rahmen um das Menü
@@ -88,49 +120,48 @@ export default class Attack {
         this.ctx.stroke();
 
         // Menüoptionen: "Item" und "Attacken"
-        const options = ["Item", "Attacken"];
-        const optionCount = options.length;
-        const optionWidth = menuWidth / optionCount;
+        const options = ["Attacken", "Item"];
         this.ctx.font = "bold 24px Arial";
         this.ctx.textBaseline = "middle";
 
-        // Zeichne die einzelnen Menüoptionen
-        for (let i = 0; i < optionCount; i++) {
-            let optionX = menuX + i * optionWidth;
-            let optionCenterX = optionX + optionWidth / 2;
-            let optionCenterY = menuY + menuHeight / 2;
+        // Zeichne die einzelnen Menüoptionen übereinander
+        for (let i = 0; i < options.length; i++) {
+            let optionY = menuY + i * optionHeight;
+            let optionCenterX = menuX + menuWidth / 2;
+            let optionCenterY = optionY + optionHeight / 2;
 
             // Wenn diese Option ausgewählt ist, wird ein halbtransparentes Highlight gezeichnet
             if (this.selectedMenuIndex === i) {
                 this.ctx.save();
                 this.ctx.fillStyle = "#fff";
                 this.ctx.globalAlpha = 0.3;
-                this.ctx.fillRect(optionX, menuY, optionWidth, menuHeight);
+                this.ctx.fillRect(menuX, optionY, menuWidth, optionHeight);
                 this.ctx.restore();
                 this.ctx.fillStyle = "#fff"; // Ausgewählte Option in Weiß
             } else {
                 this.ctx.fillStyle = "#ccc"; // Unausgewählte Optionen in Hellgrau
             }
+
             // Text zentrieren
             const text = options[i];
             const textWidth = this.ctx.measureText(text).width;
             this.ctx.fillText(text, optionCenterX - textWidth / 2, optionCenterY);
         }
+
         this.ctx.restore();
     }
 
+
 drawAttackMenu(enemy){
-    this.drawRoundedRect(this.ctx, 50, 50, 700, 700, 15);
-    const menuMargin = 50;
-    const menuWidth = 800 - 2 * menuMargin; // 700px Breite
-    const menuHeight = 150;                // Menü-Höhe (anpassbar)
-    const menuX = menuMargin;
-    const menuY = 800 - menuMargin - menuHeight;
+    const menuMargin = 30;
+    const menuWidth = 280 - 2 * menuMargin; // 700px Breite
+    const menuHeight = 150; // Erhöhte Höhe für vertikales Layout
+    const menuX = 80;
+    const menuY = 800 - menuMargin - menuHeight -100;
+
     this.ctx.save();
-    // Hintergrund des Attack-Menüs – z. B. ein dunkles Rot, damit es sich farblich abhebt
     this.ctx.fillStyle = "#660000";
     this.drawRoundedRect(this.ctx, menuX, menuY, menuWidth, menuHeight, 10);
-    // Rahmen um das Menü
     this.ctx.lineWidth = 3;
     this.ctx.strokeStyle = "#fff";
     this.ctx.stroke();
@@ -170,11 +201,91 @@ drawAttackMenu(enemy){
     this.ctx.restore();
    // console.log("attack menü")
 }
-drawItemMenu(){
-    this.drawRoundedRect(this.ctx, 50, 50, 700, 700, 15);
-    console.log("item menü")
-}
-drawHealthBar(xPos , yPos, hitpoint, maxHitpoint) {
+
+    drawItemMenu() {
+        const menuMargin = 30;
+        const menuWidth = 280 - 2 * menuMargin; // Beispiel: 220px
+        const menuHeight = 150;
+        const menuX = 80;
+        const menuY = 800 - menuMargin - menuHeight - 100;
+        const maxVisibleItems = 3; // Maximal 3 Items gleichzeitig sichtbar
+        const lineHeight = 50;  // Höhe pro Item-Eintrag
+
+        this.ctx.save();
+        this.ctx.fillStyle = "#004400";
+        this.drawRoundedRect(this.ctx, menuX, menuY, menuWidth, menuHeight, 10);
+        this.ctx.lineWidth = 3;
+        this.ctx.strokeStyle = "#fff";
+        this.ctx.stroke();
+
+        if (this.selectedItemIndex === undefined) {
+            this.selectedItemIndex = 0;
+        }
+
+        const totalItems = player.bag.length;
+
+        const visibleItems = Math.min(totalItems, maxVisibleItems);
+
+
+        let startIndex = 0;
+        if (totalItems > maxVisibleItems) {
+            startIndex = Math.min(
+                Math.max(this.selectedItemIndex - (maxVisibleItems - 1), 0),
+                totalItems - maxVisibleItems
+            );
+        }
+        let endIndex = startIndex + visibleItems;
+
+        const optionX = menuX + 20;
+        let optionY = menuY + 20;
+
+        this.ctx.font = "bold 20px Arial";
+        this.ctx.textBaseline = "top";
+
+        // Durchlaufe alle sichtbaren Items und zeichne sie
+        for (let i = startIndex; i < endIndex; i++) {
+            let item = player.bag[i];
+            if (!item) continue;
+
+            // Wenn das Item aktuell ausgewählt ist, zeichne einen Highlight-Hintergrund
+            if (this.selectedItemIndex === i) {
+                this.ctx.save();
+                this.ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+                this.ctx.fillRect(optionX - 5, optionY - 5, menuWidth - 40, 40);
+                this.ctx.restore();
+                this.ctx.fillStyle = "#fff";
+            } else {
+                this.ctx.fillStyle = "#ccc";
+            }
+
+            // Zeichne den Item-Namen (rechts neben dem Bild)
+            this.ctx.fillText(item.name, optionX + 40, optionY + 10);
+
+            // Zeichne das Item-Bild, falls es geladen ist.
+            if (this.tileImage[item.name] && this.tileImage[item.name].complete) {
+                this.ctx.drawImage(this.tileImage[item.name], optionX, optionY, 30, 30);
+            }
+
+            optionY += lineHeight;
+        }
+
+        // Zeichne eine Scrollbar, wenn es mehr Items als sichtbare Einträge gibt
+        if (totalItems > maxVisibleItems) {
+            const scrollbarHeight = (maxVisibleItems / totalItems) * menuHeight;
+            const maxStartIndex = totalItems - maxVisibleItems;
+            const scrollbarY = menuY + ((startIndex / maxStartIndex) * (menuHeight - scrollbarHeight));
+
+            this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+            this.ctx.fillRect(menuX + menuWidth - 10, scrollbarY, 5, scrollbarHeight);
+        }
+
+        this.ctx.restore();
+    }
+
+
+
+
+    drawHealthBar(xPos , yPos, hitpoint, maxHitpoint) {
         if(hitpoint <= 0)
         {
             hitpoint = 0
@@ -256,7 +367,7 @@ drawHealthBar(xPos , yPos, hitpoint, maxHitpoint) {
         // Positionierung: Der Lebensbalken befindet sich bei (50, 50) mit einer Höhe von 30.
         // Wir platzieren das Bild 20px unterhalb des Balkens.
         const imageX = 420;
-        const imageY = 320; // 50 (oben) + 30 (Balkenhöhe) + 20 (Abstand)
+        const imageY = 420; // 50 (oben) + 30 (Balkenhöhe) + 20 (Abstand)
 
         // Definiere die Größe des Bildes (anpassbar)
         const imageWidth = 250;

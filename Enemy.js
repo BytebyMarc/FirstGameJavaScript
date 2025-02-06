@@ -54,8 +54,6 @@ findEnemy()
     if (this.enemyList.some(enemy => enemy.ID === player.getLastPositionID()) && GameDep.gameStatus !== 3) {
 
         attack.enemy = this.enemyList.find(enemy => enemy.ID === player.getLastPositionID())
-        console.log(attack.enemy)
-        console.log("was hier los")
         GameDep.setGameStatus(4)
         return true
     } else {

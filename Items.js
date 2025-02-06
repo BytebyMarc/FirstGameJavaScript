@@ -13,6 +13,11 @@ export default class Items {
         this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
         this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
         this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
+        this.dropItem(GameDep.randomID(), "KAROTTE", 1, 10);
+        this.dropItem(GameDep.randomID(), "KURBIS", 1, 10);
+        this.dropItem(GameDep.randomID(), "PILZ", 1, 10);
+        this.dropItem(GameDep.randomID(), "GURKE", 1, 10);
+        this.dropItem(GameDep.randomID(), "BROKOLI", 1, 10);
 
     }
 
@@ -41,7 +46,45 @@ export default class Items {
     }
     findItem() {
         if (items.itemList.some(item => item.ID === player.getLastPositionID()) && GameDep.gameStatus !== 3) {
-            GameDep.setGameStatus(1)
+
+            let itemTake = this.itemList.find(item => item.ID === player.getLastPositionID())
+
+            console.log(itemTake);
+            if(itemTake.name === "BOOK") {
+                GameDep.setGameStatus(1)
+            }
+            if(itemTake.name === "KAROTTE") {
+                const index = items.itemList.findIndex(item => item.ID === itemTake.ID);
+                items.itemList.splice(index, 1);
+                player.bag.push(itemTake);
+                console.log("Karotte");
+            }
+            if(itemTake.name === "PILZ") {
+                const index = items.itemList.findIndex(item => item.ID === itemTake.ID);
+                items.itemList.splice(index, 1);
+                player.bag.push(itemTake);
+                console.log("Pilz");
+            }
+            if(itemTake.name === "KURBIS") {
+                const index = items.itemList.findIndex(item => item.ID === itemTake.ID);
+                items.itemList.splice(index, 1);
+                player.bag.push(itemTake);
+                console.log("Kürbis");
+            }
+            if(itemTake.name === "GURKE") {
+                const index = items.itemList.findIndex(item => item.ID === itemTake.ID);
+                items.itemList.splice(index, 1);
+                player.bag.push(itemTake);
+                console.log("Gurke");
+            }
+            if(itemTake.name === "BROKOLI") {
+                const index = items.itemList.findIndex(item => item.ID === itemTake.ID);
+                items.itemList.splice(index, 1);
+                player.bag.push(itemTake);
+                console.log("Brokoli");
+            }
+
+
             return true
         } else {
             GameDep.setGameStatus(0)

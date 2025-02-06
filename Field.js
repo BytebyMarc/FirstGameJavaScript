@@ -31,7 +31,7 @@ export default class Field{
                 }
                 gridY += this.fieldSizeY
             }
-            console.log("Array wurde erzeugt")
+
             console.log(arrayGrid)
         }
 
@@ -41,6 +41,10 @@ export default class Field{
         }
     }
     draw() {
+        this.ctx.shadowColor = "transparent";
+        this.ctx.shadowBlur = 0;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 0;
         this.ctx.beginPath();
         this.ctx.moveTo(0, 0)
         for (let i = 0; i < this.howManyBoxes; i++) {

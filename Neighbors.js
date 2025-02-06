@@ -32,7 +32,7 @@ export default class Neighbors{
         this.south = south;
         this.west = west;
         this.east = east;
-        console.log("FieldID: " + fieldID+ " North: " + north + " South: " + south + " West: " +west+  " East: " + east);
+    //    console.log("FieldID: " + fieldID+ " North: " + north + " South: " + south + " West: " +west+  " East: " + east);
     }
     getSouth(fieldID)
     {
