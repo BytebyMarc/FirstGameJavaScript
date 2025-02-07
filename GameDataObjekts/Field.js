@@ -5,6 +5,8 @@ export default class Field{
         this.fieldSizeY = GameDep.fieldSizeY;
         this.howManyBoxes = GameDep.howManyBoxes;
         this.tileImages = GameDep.tileImages;
+        this.canvasWidth = GameDep.width;
+        this.canvasHeight = GameDep.height;
 
         if(typeof arrayGrid === 'undefined') {
             window.arrayGrid = Array.from({ length: this.howManyBoxes }, () => Array(this.howManyBoxes).fill(0));
@@ -41,6 +43,7 @@ export default class Field{
         }
     }
     draw() {
+        this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
         this.ctx.shadowColor = "transparent";
         this.ctx.shadowBlur = 0;
         this.ctx.shadowOffsetX = 0;

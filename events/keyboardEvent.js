@@ -1,4 +1,4 @@
-import {GameDep, field, player, items, enemy,neighbors} from "../LoadGame.js";
+import {GameDep, field, player, items, enemy,neighbors} from "../GameDataObjekts/LoadGame.js";
 export { arrowKeyHandlers };
 
 const arrowKeyHandlers = {

@@ -1,5 +1,5 @@
 import {runJS} from "../main.js";
-import {GameDep} from "../LoadGame.js";
+import {GameDep} from "../GameDataObjekts/LoadGame.js";
 import {disableKeysStartMenu, enableArrowKeys} from "./keyHandler.js";
 
 export {startMenuKeyHandler};

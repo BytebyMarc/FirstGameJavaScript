@@ -1,5 +1,5 @@
 import {runJS} from "../main.js";
-import {GameDep, player, items, enemy, attack} from "../LoadGame.js";
+import {GameDep, player, items, enemy, attack} from "../GameDataObjekts/LoadGame.js";
 import {disableAttackKeyHandlers, enableArrowKeys} from "./keyHandler.js";
 
 export {attackKeyHandlers};
