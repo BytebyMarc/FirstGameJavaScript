@@ -111,6 +111,10 @@ export default class GameDependencies {
     {
         this.gameStatus = status;
     }
+    setIntervalId(intervalId)
+    {
+        this.intervalId = intervalId;
+    }
     GameOver(){
         this.ctx.fillStyle = 'white';
         this.ctx.fillRect(200, 200, 250, 200);
