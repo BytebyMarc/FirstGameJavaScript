@@ -1,5 +1,3 @@
-import GameDependencies from "./GameDependencies";
-
 export function saveGame(GameDep, player, field, items, attack, enemy)
 {
     const saveGameDep = JSON.stringify(GameDep);

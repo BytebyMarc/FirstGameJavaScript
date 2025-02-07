@@ -1,6 +1,7 @@
 import {arrowKeyHandlers} from "./keyboardEvent.js";
 import {attackKeyHandlers} from "./keyboardEventAttack.js";
-import {eventManager} from "../main.js";
+import {startMenuKeyHandler} from "./keyboardEventStartMenu.js";
+import {eventManager} from "../LoadGame.js";
 
 export function enableAttackKeyHandlers() {
     Object.keys(attackKeyHandlers).forEach(key => {
@@ -23,6 +24,16 @@ export function enableArrowKeys() {
 export function disableArrowKeys() {
     Object.keys(arrowKeyHandlers).forEach(key => {
         eventManager.off(key, arrowKeyHandlers[key]);
+    });
+}
+export function enableKeysStartMenu() {
+    Object.keys(startMenuKeyHandler).forEach(key => {
+        eventManager.on(key, startMenuKeyHandler[key]);
+    });
+}
+export function disableKeysStartMenu() {
+    Object.keys(startMenuKeyHandler).forEach(key => {
+        eventManager.off(key, startMenuKeyHandler[key]);
     });
 }
 

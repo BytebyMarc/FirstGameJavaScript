@@ -1,4 +1,4 @@
-import {attack, field, GameDep, player} from "./main.js";
+import {GameDep, field, player, attack} from "./LoadGame.js";
 
 export default class Enemy{
     constructor(GameDep) {

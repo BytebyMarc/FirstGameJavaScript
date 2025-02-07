@@ -1,4 +1,4 @@
-import {field, GameDep, items, neighbors, player} from "./main.js";
+import {field, GameDep, items, neighbors, player} from "./LoadGame.js";
 
 export default class Items {
     constructor(GameDep) {

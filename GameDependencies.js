@@ -9,6 +9,8 @@ export default class GameDependencies {
         this.canvasWidth = this.canvas.width;
         this.canvasHeight = this.canvas.height;
         this.questTriggered = false;
+        this.gameStart = true;
+        this.selectedStartMenu = 0
         this.gameStatus = 0;
             // 0 = Normaler Modus
             // 1 = Fragenfenster ist geöffnet
@@ -118,4 +120,7 @@ export default class GameDependencies {
         this.ctx.fillText(`New Game - Press F5 `, 250, 240);
         clearInterval(this.intervalId);
     }
+
+
+
 }

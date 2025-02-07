@@ -1,5 +1,5 @@
-import {attack, player, enemy, field, GameDep} from "./main.js";
-import {enableArrowKeys, disableArrowKeys, disableAttackKeyHandlers, enableAttackKeyHandlers, } from "./events/keyHandler.js";
+import {GameDep, field, player, attack} from "./LoadGame.js";
+import {disableArrowKeys, enableAttackKeyHandlers, } from "./events/keyHandler.js";
 
 export default class Attack {
     constructor(GameDep, player) {

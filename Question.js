@@ -1,4 +1,5 @@
-import {GameDep, items, player, runJS} from "./main.js";
+import {GameDep, items, player} from "./LoadGame.js";
+import {runJS} from "./main.js";
 
 export default class Question {
     constructor(data) {
