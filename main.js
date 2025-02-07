@@ -13,7 +13,7 @@ import {mouseClickHandler, mousePositionEvent} from './events/mouseEvent.js';
 import {saveGame} from "./SaveGame.js"
 import Statusbar from './statusbar.js';
 import Data from './Dataloader/Data.js';
-
+// testtetstet
 
 let GameDepInstance
 let GameDepParsed = localStorage.getItem("GameDep");
