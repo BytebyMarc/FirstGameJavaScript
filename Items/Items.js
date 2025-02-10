@@ -1,4 +1,4 @@
-import {field, GameDep, items, neighbors, player} from "../GameDataObjekts/LoadGame.js";
+import {attack, field, GameDep, items, neighbors, player} from "../GameDataObjekts/LoadGame.js";
 
 export default class Items {
     constructor(GameDep) {
@@ -9,6 +9,7 @@ export default class Items {
         this.intervalId = GameDep.intervalId;
         this.overlay = document.getElementById('overlay');
         this.itemList = []
+        this.itemTake = undefined;
         this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
         this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
         this.dropItem(GameDep.randomID(), "BOOK", 1, 10);
@@ -36,7 +37,8 @@ export default class Items {
     }
 
     dropItem(random, name, itemSort, playerLifePoints) {
-        let newItem = {ID: random, name: name, itemSort: itemSort, playerLifePoints: playerLifePoints};
+        let newItem = {ID: random, name: name, itemSort: itemSort, playerLifePoints: playerLifePoints, width : 50,
+            height : 50};
 
         if(field.getArtById(random) === "MOUNTAIN") {
             field.updateArtById(random, "GRASS")
@@ -44,48 +46,78 @@ export default class Items {
         this.itemList.push(newItem);
         //Die id ist in diesem fall das Feld auf dem DAs Item Dropped
     }
+    checkCollision(rect1, rect2) {
+
+        const flatarray = arrayGrid.flat()
+        const positionEnemy = flatarray.find(obj => obj.ID === rect2.ID);
+        return (
+            rect1.playerX < positionEnemy.gridX + rect2.width &&
+            rect1.playerX  + rect1.width > positionEnemy.gridX &&
+            rect1.playerY  < positionEnemy.gridY + rect2.height &&
+            rect1.playerY  + rect1.height > positionEnemy.gridY
+        );
+    }
     findItem() {
-        if (items.itemList.some(item => item.ID === player.getLastPositionID()) && GameDep.gameStatus !== 3) {
+       // if (items.itemList.some(item => item.ID === player.getLastPositionID()) && GameDep.gameStatus !== 3) {
+          let itemTake = undefined
+           if (GameDep.gameStatus !== 3) {
+                for (let item of this.itemList) {
+                    if (this.checkCollision(player, item)) {
+                        console.log("Kollision mit Gegner an Position:", item.x, item.y);
+                        //GameDep.setGameStatus(4);
+                        this.itemTake = item;
+                    }
+                }
 
-            let itemTake = this.itemList.find(item => item.ID === player.getLastPositionID())
+            console.log(this.itemTake)
 
-            console.log(itemTake);
-            if(itemTake.name === "BOOK") {
-                GameDep.setGameStatus(1)
-            }
-            if(itemTake.name === "KAROTTE") {
-                const index = items.itemList.findIndex(item => item.ID === itemTake.ID);
-                items.itemList.splice(index, 1);
-                player.bag.push(itemTake);
-                console.log("Karotte");
-            }
-            if(itemTake.name === "PILZ") {
-                const index = items.itemList.findIndex(item => item.ID === itemTake.ID);
-                items.itemList.splice(index, 1);
-                player.bag.push(itemTake);
-                console.log("Pilz");
-            }
-            if(itemTake.name === "KURBIS") {
-                const index = items.itemList.findIndex(item => item.ID === itemTake.ID);
-                items.itemList.splice(index, 1);
-                player.bag.push(itemTake);
-                console.log("Kürbis");
-            }
-            if(itemTake.name === "GURKE") {
-                const index = items.itemList.findIndex(item => item.ID === itemTake.ID);
-                items.itemList.splice(index, 1);
-                player.bag.push(itemTake);
-                console.log("Gurke");
-            }
-            if(itemTake.name === "BROKOLI") {
-                const index = items.itemList.findIndex(item => item.ID === itemTake.ID);
-                items.itemList.splice(index, 1);
-                player.bag.push(itemTake);
-                console.log("Brokoli");
+            if(this.itemTake) {
+                if (this.itemTake.name === "BOOK") {
+                    GameDep.setGameStatus(1)
+                }
+                if (this.itemTake.name === "KAROTTE") {
+                    const index = items.itemList.findIndex(item => item.ID === this.itemTake.ID);
+                    items.itemList.splice(index, 1);
+                    player.bag.push(this.itemTake);
+                    console.log("Karotte");
+                    this.itemTake = undefined;
+                    return true
+                }
+                if (this.itemTake.name === "PILZ") {
+                    const index = items.itemList.findIndex(item => item.ID === this.itemTake.ID);
+                    items.itemList.splice(index, 1);
+                    player.bag.push(this.itemTake);
+                    console.log("Pilz");
+                    this.itemTake = undefined;
+                    return true
+                }
+                if (this.itemTake.name === "KURBIS") {
+                    const index = items.itemList.findIndex(item => item.ID === this.itemTake.ID);
+                    items.itemList.splice(index, 1);
+                    player.bag.push(this.itemTake);
+                    console.log("Kürbis");
+                    this.itemTake = undefined;
+                    return true
+                }
+                if (this.itemTake.name === "GURKE") {
+                    const index = items.itemList.findIndex(item => item.ID === this.itemTake.ID);
+                    items.itemList.splice(index, 1);
+                    player.bag.push(this.itemTake);
+                    console.log("Gurke");
+                    this.itemTake = undefined;
+                    return true
+                }
+                if (this.itemTake.name === "BROKOLI") {
+                    const index = items.itemList.findIndex(item => item.ID === this.itemTake.ID);
+                    items.itemList.splice(index, 1);
+                    player.bag.push(this.itemTake);
+                    console.log("Brokoli");
+                    this.itemTake = undefined;
+                    return true
+                }
             }
 
 
-            return true
         } else {
             GameDep.setGameStatus(0)
         }

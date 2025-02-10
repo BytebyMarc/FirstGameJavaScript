@@ -9,6 +9,10 @@ export default class Player {
         this.experiencePoints = 0;
         this.experiencePointsNextLevel = 50
         this.playerLevel = 1;
+        this.playerX = 350;
+        this.playerY = 300;
+        this.width = 50;
+        this.height = 50;
         this.lastPositionID = 103
         this.tileImages = GameDep.tileImages;
         this.attack1 = "Feuerball";
@@ -21,6 +25,52 @@ export default class Player {
         this.attack4Hit = 10;
         this.bag = []
     }
+
+
+    move2up(playerX, playerY, neighborID) {
+        const flatarray = arrayGrid.flat()
+        const positionPlayer = flatarray.find(obj => obj.ID === this.lastPositionID);
+
+// obere Linie
+        if(this.playerY < positionPlayer.gridY-1){
+            this.lastPositionID = neighborID;
+            // console.log("obere Linie");
+            // console.log(positionPlayer);
+            // console.log(this.playerY);
+        }}
+
+    move2down(playerX, playerY, neighborID) {
+        const flatarray = arrayGrid.flat()
+        const positionPlayer = flatarray.find(obj => obj.ID === this.lastPositionID);
+// untere Linie
+        if((this.playerY +49) > (positionPlayer.gridY +50)){
+            this.lastPositionID = neighborID;
+            // console.log("untere Linie");
+            // console.log(positionPlayer);
+            // console.log(this.playerY);
+        }}
+    move2left(playerX, playerY, neighborID) {
+        const flatarray = arrayGrid.flat()
+        const positionPlayer = flatarray.find(obj => obj.ID === this.lastPositionID);
+
+// linke linie
+        if(this.playerX < positionPlayer.gridX-1){
+            this.lastPositionID = neighborID;
+            // console.log("Linke linie");
+            // console.log(positionPlayer);
+            // console.log(this.playerY);
+        }}
+    move2right(playerX, playerY, neighborID) {
+        const flatarray = arrayGrid.flat()
+        const positionPlayer = flatarray.find(obj => obj.ID === this.lastPositionID);
+// untere Linie
+        if((this.playerX +49) > (positionPlayer.gridX +50)){
+            this.lastPositionID = neighborID;
+            // console.log("rechte Linie");
+            // console.log(positionPlayer);
+            // console.log(this.playerY);
+        }}
+
     move(direction, setLastPositionID) {
         switch (direction) {
             case "up":
@@ -36,6 +86,11 @@ export default class Player {
                 this.lastPositionID = setLastPositionID;
                 break;
         }
+    }
+    setPlayerPosition(playerX, playerY) {
+        this.playerX = this.playerX+playerX
+        this.playerY = this.playerY+playerY
+
     }
     setLastPositionID(fieldID){
         this.lastPositionID = fieldID;
@@ -71,7 +126,7 @@ export default class Player {
         const result = arrayGrid.flat().find(cell => cell.ID === this.lastPositionID);
         let img = this.tileImages.DRAGON
         if (img.complete) {
-            this.ctx.drawImage(img, result.gridX, result.gridY, this.fieldSizeX, this.fieldSizeY);
+            this.ctx.drawImage(img, this.playerX, this.playerY, this.fieldSizeX, this.fieldSizeY);
         }else {
             this.ctx.fillStyle = 'red';
             this.ctx.fillRect(result.gridX, result.gridY, this.fieldSizeX, this.fieldSizeY);

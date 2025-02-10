@@ -31,6 +31,8 @@ dropEnemy(random, name, hitpoint, defensive, speed, critical, attack1, attack1Hi
         let newEnemy = {
             ID: random,
             name: name,
+            width : 50,
+            height : 50,
             hitpoint: hitpoint,
             maxHitpoint: hitpoint,
             defensive: defensive,
@@ -48,18 +50,28 @@ dropEnemy(random, name, hitpoint, defensive, speed, critical, attack1, attack1Hi
         this.enemyList.push(newEnemy);
         //Die id ist in diesem fall das Feld auf dem DAs Item Dropped
     }
+checkCollision(rect1, rect2) {
 
+    const flatarray = arrayGrid.flat()
+    const positionEnemy = flatarray.find(obj => obj.ID === rect2.ID);
+        return (
+            rect1.playerX < positionEnemy.gridX + rect2.width &&
+            rect1.playerX  + rect1.width > positionEnemy.gridX &&
+            rect1.playerY  < positionEnemy.gridY + rect2.height &&
+            rect1.playerY  + rect1.height > positionEnemy.gridY
+        );
+    }
 findEnemy()
 {
-    if (this.enemyList.some(enemy => enemy.ID === player.getLastPositionID()) && GameDep.gameStatus !== 3) {
-
-        attack.enemy = this.enemyList.find(enemy => enemy.ID === player.getLastPositionID())
-        GameDep.setGameStatus(4)
-        return true
-    } else {
-        GameDep.setGameStatus(0)
+    if (GameDep.gameStatus !== 3) {
+        for (let enemy of this.enemyList) {
+            if (this.checkCollision(player, enemy)) {
+                console.log("Kollision mit Gegner an Position:", enemy.x, enemy.y);
+                attack.enemy = enemy
+                GameDep.setGameStatus(4)
+            }
+        }
     }
-
 }
 drawEnemy() {
 

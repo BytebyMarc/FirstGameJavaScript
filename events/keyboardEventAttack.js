@@ -15,16 +15,19 @@ const attackKeyHandlers = {
             switch (attack.selectedAttackIndex) {
                 case 0:
                     attack.enemy.hitpoint = attack.enemy.hitpoint - player.attack1Hit
-
+                    player.setPlayerLifePoints(-3)
                     break;
                 case 1:
                     attack.enemy.hitpoint = attack.enemy.hitpoint - player.attack2Hit
+                    player.setPlayerLifePoints(-3)
                     break;
                 case 2:
                     attack.enemy.hitpoint = attack.enemy.hitpoint - player.attack2Hit
+                    player.setPlayerLifePoints(-3)
                     break;
                 case 3:
                     attack.enemy.hitpoint = attack.enemy.hitpoint - player.attack2Hit
+                    player.setPlayerLifePoints(-3)
                     break;
                 default:
                     console.log(attack.selectedAttackIndex)

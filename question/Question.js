@@ -43,10 +43,17 @@ export default class Question {
             if (control === event.target.id) {
 
                 player.setPlayerLifePoints(10)
-                const index = items.itemList.findIndex(item => item.ID === player.getLastPositionID());
+
+                const index = items.itemList.findIndex(item => item.ID === items.itemTake.ID);
                 items.itemList.splice(index, 1);
+
+                // const index = items.itemList.findIndex(item => item.ID === player.getLastPositionID());
+                // items.itemList.splice(index, 1);
+
                 player.levelCalculator(5)
                 console.log(`Richtige Antwort`);
+                items.itemTake = undefined;
+                GameDep.setGameStatus(0)
             }
         }
         GameDep.setGameStatus(3)

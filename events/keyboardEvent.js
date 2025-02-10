@@ -10,10 +10,9 @@ const arrowKeyHandlers = {
     },
     ArrowUp: () => {
         const neighborID = neighbors.getNorth(player.getLastPositionID());
-        const result = arrayGrid.flat().find(cell => cell.ID === neighborID);
+        const result = arrayGrid.flat().find(cell => cell.ID === player.getLastPositionID());
         if(!result || result.art === "MOUNTAIN"){
-            player.setPlayerLifePoints(-10)
-            return;
+            player.setPlayerLifePoints(-5)
         }
 
         if (items.findItem()) return;
@@ -24,14 +23,16 @@ const arrowKeyHandlers = {
             items.mapMoveItem("north")
             return;
         }
-        player.move("up", neighborID)
+        player.setPlayerPosition(0,-15)
+        player.move2up(0,0, neighborID)
+      // player.move("up", neighborID)
     },
     ArrowDown: () => {
         const neighborID = neighbors.getSouth(player.getLastPositionID());
-        const result = arrayGrid.flat().find(cell => cell.ID === neighborID);
+        const result = arrayGrid.flat().find(cell => cell.ID === player.getLastPositionID());
         if(!result || result.art === "MOUNTAIN"){
-            player.setPlayerLifePoints(-10)
-            return;
+            player.setPlayerLifePoints(-5)
+
         }
 
         if (items.findItem()) return;
@@ -42,15 +43,16 @@ const arrowKeyHandlers = {
             items.mapMoveItem("south")
             return;
         }
-        player.move("up", neighborID)
+        player.setPlayerPosition(0,15)
+        player.move2down(0,0, neighborID)
+       // player.move("up", neighborID)
     },
     ArrowLeft: () => {
         const neighborID = neighbors.getWest(player.getLastPositionID());
-
-        const result = arrayGrid.flat().find(cell => cell.ID === neighborID);
+        const result = arrayGrid.flat().find(cell => cell.ID === player.getLastPositionID());
         if(!result || result.art === "MOUNTAIN"){
-            player.setPlayerLifePoints(-10)
-            return;
+            player.setPlayerLifePoints(-5)
+
         }
 
         if (items.findItem()) return;
@@ -64,14 +66,15 @@ const arrowKeyHandlers = {
             }
         }
 
-        player.move("up", neighborID)
+        player.setPlayerPosition(-15,0)
+        player.move2left(0,0, neighborID)
+       // player.move("up", neighborID)
     },
     ArrowRight: () => {
         const neighborID = neighbors.getEast(player.getLastPositionID());
-        const result = arrayGrid.flat().find(cell => cell.ID === neighborID);
+        const result = arrayGrid.flat().find(cell => cell.ID === player.getLastPositionID());
         if(!result || result.art === "MOUNTAIN"){
-            player.setPlayerLifePoints(-10)
-            return;
+            player.setPlayerLifePoints(-5)
         }
         if (items.findItem()) return;
         if (enemy.findEnemy()) return;
@@ -84,7 +87,9 @@ const arrowKeyHandlers = {
             }
         }
 
-        player.move("up", neighborID)
+        player.setPlayerPosition(15,0)
+        player.move2right(0,0, neighborID)
+      //  player.move("up", neighborID)
     }
 
 
