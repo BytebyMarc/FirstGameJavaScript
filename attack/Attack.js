@@ -26,6 +26,7 @@ export default class Attack {
     }
     openWindowAttack() {
         if (GameDep.gameStatus === 4) {
+            GameDep.keyState = {};
             disableArrowKeys()
             enableAttackKeyHandlers()
             clearInterval(GameDep.intervalId);

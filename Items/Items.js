@@ -69,7 +69,7 @@ export default class Items {
                     }
                 }
 
-            console.log(this.itemTake)
+         //   console.log(this.itemTake)
 
             if(this.itemTake) {
                 if (this.itemTake.name === "BOOK") {

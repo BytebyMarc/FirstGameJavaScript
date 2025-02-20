@@ -68,6 +68,7 @@ findEnemy()
             if (this.checkCollision(player, enemy)) {
                 console.log("Kollision mit Gegner an Position:", enemy.x, enemy.y);
                 attack.enemy = enemy
+
                 GameDep.setGameStatus(4)
             }
         }

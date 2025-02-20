@@ -121,7 +121,15 @@ import {mouseClickHandler, mousePositionEvent} from "../events/mouseEvent";
 
 GameDep.canvas.addEventListener('click', mouseClickHandler(player, GameDep));
 GameDep.container.addEventListener('click', (event) => {question.checkAnswer(event); });
-document.addEventListener('keydown', (event) => { eventManager.emit(event.key, event); });
+window.addEventListener("keydown", (event) => {
+    console.log("keydown erkannt:", event);
+    eventManager.emit(event.code, event); // Einheitlich event.code + Event-Objekt senden
+});
+
+window.addEventListener("keyup", (event) => {
+    eventManager.emit(`release_${event.code}`);
+});
+
 GameDep.canvas.onmousedown = mouseClickHandler;
 GameDep.canvas.onmousemove = mousePositionEvent;
 

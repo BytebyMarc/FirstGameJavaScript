@@ -10,6 +10,7 @@ export default class GameDependencies {
         this.canvasHeight = this.canvas.height;
         this.questTriggered = false;
         this.gameStart = true;
+        this.keyState = {}; // Speichert gedrückte Tasten
         this.selectedStartMenu = 0
         this.gameStatus = 0;
             // 0 = Normaler Modus

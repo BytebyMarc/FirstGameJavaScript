@@ -2,12 +2,13 @@
 import {enableKeysStartMenu} from "./events/keyHandler.js";
 import {saveGame} from "./GameDataObjekts/SaveGame.js"
 import {GameDep, field, player, items, enemy, question,attack, statusBar, setNewGame, drawStartMenu} from "./GameDataObjekts/LoadGame.js";
+import {updateMovement} from "./events/keyboardEvent.js";
 
 // Spiel start mit SpielMenü
 if(GameDep.gameStart === true){
     enableKeysStartMenu()
     GameDep.selectedStartMenu = 0;
-    GameDep.intervalId = setInterval(drawStartMenu, 100);
+    GameDep.intervalId = setInterval(drawStartMenu, 10);
 }
 
 export function runJS(){
@@ -15,6 +16,7 @@ export function runJS(){
     if(GameDep.selectedStartMenu === 9){
         setNewGame()
     }
+    updateMovement(player)
     field.draw();
     player.draw();
     items.drawBook();

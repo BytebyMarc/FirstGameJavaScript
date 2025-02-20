@@ -62,6 +62,7 @@ const attackKeyHandlers = {
             player.levelCalculator(15)
             disableAttackKeyHandlers()
             enableArrowKeys()
+
             GameDep.setGameStatus(0)
             clearInterval(GameDep.intervalId);
             GameDep.intervalId = setInterval(runJS, 100);
